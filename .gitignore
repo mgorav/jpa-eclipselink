@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+jpa-eclipselink-spring-boot-autoconfigure/jpa-eclipselink-spring-boot-autoconfigure.iml
+jpa-eclipselink-spring-boot-autoconfigure/target/generated-sources/
+jpa-eclipselink-spring-boot-starter/jpa-eclipselink-spring-boot-starter.iml
+jpa-eclipselink.iml

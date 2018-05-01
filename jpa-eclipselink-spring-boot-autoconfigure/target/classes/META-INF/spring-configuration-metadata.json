@@ -2,14 +2,14 @@
   "hints": [],
   "groups": [
     {
-      "sourceType": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkConfigurer",
-      "name": "gm.shared.jpa",
-      "type": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkConfigurer"
-    },
-    {
       "sourceType": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkAutoConfiguration",
       "name": "gm.shared.jpa",
       "type": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkAutoConfiguration"
+    },
+    {
+      "sourceType": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkConfigurer",
+      "name": "gm.shared.jpa",
+      "type": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkConfigurer"
     },
     {
       "sourceType": "com.gm.shared.jpa.eclipselink.autoconfigure.JpaDataSourceConfigurer",

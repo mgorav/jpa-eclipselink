@@ -1,8 +1,8 @@
 package com.gm.shared.jpa.eclipselink.autoconfigure;
 
+import com.gm.shared.jpa.eclipselink.txmgr.SmartJpaTransactionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
@@ -15,7 +15,7 @@ public class JpaTransactionManagerConfigurer {
 
     @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        final JpaTransactionManager transactionManager = new JpaTransactionManager();
+        final SmartJpaTransactionManager transactionManager = new SmartJpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }

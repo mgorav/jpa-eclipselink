@@ -1,5 +1,6 @@
 package com.gm.shared.jpa.eclipselink.autoconfigure;
 
+import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import com.gm.shared.jpa.eclipselink.customizer.EclipseLinkCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.newJpaEclipseLinkProperties;
 import static org.springframework.util.StringUtils.collectionToCommaDelimitedString;
 
 @Configuration
@@ -53,6 +55,12 @@ public class JpaEclipseLinkConfigurer {
 
         this.properties.forEach((key, value) -> {
             properties.setProperty(key, value);
+
+            if (key.contains("eclipselink.async")) {
+                int asyncCommitCount = key.equals("eclipselink.async.commit.count") ? Integer.parseInt(value) : 1000;
+                newJpaEclipseLinkProperties(asyncCommitCount);
+
+            }
 
             setDefaultEclipseLinkJpaProperties(properties);
 
@@ -93,6 +101,7 @@ public class JpaEclipseLinkConfigurer {
     // ~~~ private methods
 
     private void enableEclipseLinkLoggingIfConfigured(Properties properties, String key, String value) {
+
         if (key.equals("eclipselink-logging") && value != null && Boolean.valueOf(value)) {
             // enable logging
 
