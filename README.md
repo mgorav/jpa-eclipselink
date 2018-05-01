@@ -111,6 +111,9 @@ Including this lib will bring Spring Data features automatically.
   serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
   persistence and **do not want active thread waste any wait time in persistence**. It also idea match for reactive programming. 
   
+  **NOTE** Async persistence is only activated if property **eclipselink-async-commitcount** is added to application.yml
+  file in your application/service.
+  
    Example JPA/Eclipselink configurations of an application consuming jpa-eclipselink lib
    
    ```` yaml
