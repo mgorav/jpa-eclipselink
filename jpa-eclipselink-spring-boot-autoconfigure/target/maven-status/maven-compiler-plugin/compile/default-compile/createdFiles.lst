@@ -1,0 +1,6 @@
+com\gm\shared\jpa\eclipselink\customizer\EclipseLinkCustomizer.class
+com\gm\shared\jpa\eclipselink\autoconfigure\JpaEclipseLinkAutoConfiguration.class
+com\gm\shared\jpa\eclipselink\autoconfigure\JpaEclipseLinkConfigurer.class
+com\gm\shared\jpa\eclipselink\autoconfigure\JpaTransactionManagerConfigurer.class
+com\gm\shared\jpa\eclipselink\autoconfigure\JpaDataSourceConfigurer.class
+META-INF\spring-configuration-metadata.json

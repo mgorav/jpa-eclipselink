@@ -1,0 +1,5 @@
+D:\MyPetProjects\jpa-eclipselink\jpa-eclipselink-spring-boot-autoconfigure\src\main\java\com\gm\shared\jpa\eclipselink\autoconfigure\JpaEclipseLinkConfigurer.java
+D:\MyPetProjects\jpa-eclipselink\jpa-eclipselink-spring-boot-autoconfigure\src\main\java\com\gm\shared\jpa\eclipselink\autoconfigure\JpaTransactionManagerConfigurer.java
+D:\MyPetProjects\jpa-eclipselink\jpa-eclipselink-spring-boot-autoconfigure\src\main\java\com\gm\shared\jpa\eclipselink\autoconfigure\JpaDataSourceConfigurer.java
+D:\MyPetProjects\jpa-eclipselink\jpa-eclipselink-spring-boot-autoconfigure\src\main\java\com\gm\shared\jpa\eclipselink\autoconfigure\JpaEclipseLinkAutoConfiguration.java
+D:\MyPetProjects\jpa-eclipselink\jpa-eclipselink-spring-boot-autoconfigure\src\main\java\com\gm\shared\jpa\eclipselink\customizer\EclipseLinkCustomizer.java
