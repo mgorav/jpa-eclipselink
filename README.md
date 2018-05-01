@@ -13,6 +13,7 @@ auto configure:
 4. Auto scanning of entities (@EntityScan)
 5. JPA configuration without persistence.xml
 6. Auto configure JPA/EclipseLink best practices, explained below in detail
+7. Reactive/Async Persistence
 
 Including this lib will bring Spring Data features automatically. 
 
@@ -100,7 +101,16 @@ Including this lib will bring Spring Data features automatically.
      <version>[version]</version>  
    </dependency>
    ````
-   
+  
+  ##Reactive EntityManager/Async Persistence
+  
+  EntityManager by default are bound to thread. Using this lib, its possible to make EntityManager async.
+  When the property **eclipselink-async-commitcount** is configured, the currently active thread will be released as
+  soon as JpaTransactionManager commit is called. But when configured **eclipselink-async-commitcount** (i.e. tranaction commits) are reached, the whole transactions 
+  will be committed asynchronously in a diffrent thread. This feature is also similar to **write behind** cache of Coherence/Hazelcast but with zero
+  serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
+  persistence and **do not want active thread waste any wait time in persistence**. It also idea match for reactive programming. 
+  
    Example JPA/Eclipselink configurations of an application consuming jpa-eclipselink lib
    
    ```` yaml
@@ -111,6 +121,7 @@ Including this lib will bring Spring Data features automatically.
               eclipselink.cache-usage: CheckCacheThenDatabase
               eclipselink-logging: false
               eclipselink-performance.profiler: false
+              eclipselink-async-commitcount: 1000
             datasource:
              platform: derby
              initialize: true
