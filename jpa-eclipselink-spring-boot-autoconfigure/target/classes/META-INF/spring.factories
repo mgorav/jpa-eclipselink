@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gm.shared.jpa.eclipselink.autoconfigure.JpaEclipseLinkAutoConfiguration
