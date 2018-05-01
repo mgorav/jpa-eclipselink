@@ -31,8 +31,20 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
     private AsyncCommitService commitService;
 
     @Override
+    protected void prepareForCommit(DefaultTransactionStatus status) {
+        handleAsyncPersistence();
+        super.prepareForCommit(status);
+    }
+
+    @Override
     protected void doCommit(DefaultTransactionStatus status) {
 
+        handleAsyncPersistence();
+
+        super.doCommit(status);
+    }
+
+    private void handleAsyncPersistence() {
         if (jpaEclipseLinkProperties().isPresent()) {
             JpaEclipseLinkProperties jpaEclipseLinkProperties = jpaEclipseLinkProperties().get();
 
@@ -46,8 +58,6 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
             }
 
         }
-
-        super.doCommit(status);
     }
 
 
