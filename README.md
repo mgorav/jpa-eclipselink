@@ -104,10 +104,10 @@ Including this lib will bring Spring Data features automatically.
   
   ##Reactive EntityManager/Async Persistence
   
-  EntityManager by default is bound to a thread. Using this lib, its possible to make EntityManager async.
-  When the property **eclipselink-async-commitcount** is configured, the currently active thread will be released as
-  soon as JpaTransactionManager commit happens and threadbound transaction/changeset will be collected/queued. When configured **eclipselink-async-commitcount** (i.e. tranaction commits) is reached, the collected/queued transactions/changeset
-  will be committed asynchronously in a diffrent thread as batch write. This feature is also similar to **write behind** cache of [Coherence](https://docs.oracle.com/cd/E15357_01/coh.360/e15723/cache_rtwtwbra.htm#COHDG5177)/[Hazelcast](http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html#map) but with zero
+EntityManager by default is bound to a thread. Using this lib, its possible to make EntityManager async.
+When the property **eclipselink-async-commitcount** is configured, the currently active thread will be released as
+soon as JpaTransactionManager commit happens and threadbound transaction/changeset will be collected/queued in the order of commit. When configured **eclipselink-async-commitcount** (i.e. tranaction commits) is reached, the collected/queued transactions/changeset
+will be committed asynchronously in a diffrent thread as batch write. This feature is also similar to **write behind** cache of [Coherence](https://docs.oracle.com/cd/E15357_01/coh.360/e15723/cache_rtwtwbra.htm#COHDG5177)/[Hazelcast](http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html#map) but with zero
 serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
 persistence and **do not want active thread wastes any time in persistence**. It is also ideal match for reactive programming. Following diagram show async persistence:
 
