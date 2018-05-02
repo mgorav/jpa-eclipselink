@@ -98,25 +98,23 @@ public class AsyncEntityManager {
     /**
      * AsyncPersistenceObjectChangeSet one at time commit in case of error and pass the exception to the exception handler
      */
-    public void individualCommit(List<AsyncPersistenceObjectChangeSet> changeSets) {
+    public void individualCommit(AsyncPersistenceObjectChangeSet changeSet) {
 
-        for (AsyncPersistenceObjectChangeSet changeSet : changeSets) {
 
-            Exception individualCommitException = null;
-            try {
-                // Before going to row by row commit revert to ovn before batch commit. This done because when exception occurs
-                // objects are in underministic state
-                changeSet.revertToObjectVersionBeforeBatchCommit();
-                batchCommit(asList(changeSet));
-            } catch (Exception e) {
-                individualCommitException = e;
-                log.error("Error executing asynchronous commits in individual unit of work transactions", e);
-            }
-
-            if (individualCommitException != null && errorHandler != null) {
-                errorHandler.handle(individualCommitException);
-            }
-
+        Exception individualCommitException = null;
+        try {
+            // Before going to row by row commit revert to ovn before batch commit. This done because when exception occurs
+            // objects are in underministic state
+            changeSet.revertToObjectVersionBeforeBatchCommit();
+            batchCommit(asList(changeSet));
+        } catch (Exception e) {
+            individualCommitException = e;
+            log.error("Error executing asynchronous commits in individual unit of work transactions", e);
         }
+
+        if (individualCommitException != null && errorHandler != null) {
+            errorHandler.handle(individualCommitException);
+        }
+
     }
 }

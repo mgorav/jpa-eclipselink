@@ -45,7 +45,14 @@ public class AsyncCommitService {
                 }
 
                 if (!changeSetList.isEmpty()) {
-                    asyncEntityManager.batchCommit(changeSetList);
+                    try {
+                        asyncEntityManager.batchCommit(changeSetList);
+                    } catch (Exception exp) {
+                        // Switch to row by row commit
+                        changeSetList.stream().forEach( asyncChangeSet -> {
+                            asyncEntityManager.individualCommit(asyncChangeSet);
+                        });
+                    }
                 }
 
             }
