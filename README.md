@@ -110,7 +110,7 @@ soon as JpaTransactionManager commit happens and threadbound transaction/changes
 serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
 persistence and **do not want active thread wastes any time in persistence**. It is also ideal match for reactive programming. Following diagram show async persistence:
 
- ![alt text](./AsyncPersistence.bmp)
+ ![alt text](./NewAsyncPersistence.bmp)
   
   **NOTE** Async persistence is only activated if property **eclipselink-async-commitcount** is added to application.yml
   file in your application/service.
