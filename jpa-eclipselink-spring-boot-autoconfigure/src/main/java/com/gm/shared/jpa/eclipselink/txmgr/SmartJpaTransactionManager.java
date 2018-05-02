@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.txmgr;
 
-import com.gm.shared.jpa.eclipselink.asyncpersistence.AsyncWriter;
+import com.gm.shared.jpa.eclipselink.asyncpersistence.em.AsyncEntityManager;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.em.ThreadBoundEntityManagerHandler;
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
@@ -26,7 +26,7 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
     @Autowired(required = false)
     private ThreadBoundEntityManagerHandler threadBoundEMHandler;
     @Autowired(required = false)
-    private AsyncWriter asyncWriter;
+    private AsyncEntityManager asyncEntityManager;
     @Autowired(required = false)
     private AsyncCommitService commitService;
 
@@ -64,7 +64,7 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
     @PostConstruct
     public void postConstruct() {
         if (jpaEclipseLinkProperties().isPresent()) {
-            unitOfWorkChangeSetQueue = newDeque(asyncWriter, jpaEclipseLinkProperties().get(), commitService);
+            unitOfWorkChangeSetQueue = newDeque(asyncEntityManager, jpaEclipseLinkProperties().get(), commitService);
         }
     }
 }

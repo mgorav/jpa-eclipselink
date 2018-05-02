@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.asyncpersistence;
+package com.gm.shared.jpa.eclipselink.asyncpersistence.em;
 
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
 import com.gm.shared.jpa.eclipselink.errorhandling.ErrorHandler;
@@ -31,7 +31,7 @@ import static org.springframework.transaction.TransactionDefinition.PROPAGATION_
  */
 @Component
 @Log4j
-public class AsyncWriter {
+public class AsyncEntityManager {
 
 
     @PersistenceContext

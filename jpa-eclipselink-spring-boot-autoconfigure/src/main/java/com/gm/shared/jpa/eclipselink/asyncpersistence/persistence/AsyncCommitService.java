@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.asyncpersistence.persistence;
 
-import com.gm.shared.jpa.eclipselink.asyncpersistence.AsyncWriter;
+import com.gm.shared.jpa.eclipselink.asyncpersistence.em.AsyncEntityManager;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittin
 public class AsyncCommitService {
 
     @Autowired
-    private AsyncWriter asyncWriter;
+    private AsyncEntityManager asyncEntityManager;
     @Autowired
     private JpaEclipseLinkProperties jpaEclipseLinkProperties;
     @Autowired
@@ -43,7 +43,7 @@ public class AsyncCommitService {
                 }
 
                 if (!changeSetList.isEmpty()) {
-                    asyncWriter.batchCommit(changeSetList);
+                    asyncEntityManager.batchCommit(changeSetList);
                 }
 
             }
@@ -52,7 +52,7 @@ public class AsyncCommitService {
 
     @Scheduled(fixedDelay = 1000000)
     public void doCommit() {
-        doCommit(newDeque(asyncWriter, jpaEclipseLinkProperties, asyncCommitService));
+        doCommit(newDeque(asyncEntityManager, jpaEclipseLinkProperties, asyncCommitService));
     }
 
 
