@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Optional;
 
 import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 
 @Getter
 public class JpaEclipseLinkProperties {
@@ -27,6 +28,6 @@ public class JpaEclipseLinkProperties {
 
     public static Optional<JpaEclipseLinkProperties> jpaEclipseLinkProperties() {
 
-        return of(jpaEclipseLinkProperties);
+        return ofNullable(jpaEclipseLinkProperties);
     }
 }
