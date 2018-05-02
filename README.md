@@ -106,7 +106,7 @@ Including this lib will bring Spring Data features automatically.
   
   EntityManager by default is bound to thread. Using this lib, its possible to make EntityManager async.
   When the property **eclipselink-async-commitcount** is configured, the currently active thread will be released as
-  soon as JpaTransactionManager commit is called. But when configured **eclipselink-async-commitcount** (i.e. tranaction commits) are reached, the whole transactions 
+  soon as JpaTransactionManager commit is called. But when configured **eclipselink-async-commitcount** (i.e. tranaction commits) are reached, the queued transactions/changeset
   will be committed asynchronously in a diffrent thread. This feature is also similar to **write behind** cache of [Coherence](https://docs.oracle.com/cd/E15357_01/coh.360/e15723/cache_rtwtwbra.htm#COHDG5177)/[Hazelcast](http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html#map) but with zero
   serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
   persistence and **do not want active thread waste any wait time in persistence**. It is also idea match for reactive programming. 
