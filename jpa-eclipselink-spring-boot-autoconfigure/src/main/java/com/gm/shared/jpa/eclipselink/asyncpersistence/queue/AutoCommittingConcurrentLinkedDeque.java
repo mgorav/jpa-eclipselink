@@ -30,7 +30,6 @@ public class AutoCommittingConcurrentLinkedDeque<E> extends ConcurrentLinkedDequ
         }
 
         return deque;
-
     }
 
     @Override
