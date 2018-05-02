@@ -4,8 +4,7 @@ import com.gm.shared.jpa.eclipselink.asyncpersistence.AsyncWriter;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.em.ThreadBoundEntityManagerHandler;
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
-import com.gm.shared.jpa.eclipselink.persistence.AsyncCommitService;
-import com.gm.shared.jpa.eclipselink.persistence.AutoCommittingConcurrentLinkedDeque;
+import com.gm.shared.jpa.eclipselink.asyncpersistence.persistence.AsyncCommitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
@@ -17,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Queue;
 
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
+import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittingConcurrentLinkedDeque.newDeque;
 
 @Component
 public class SmartJpaTransactionManager extends JpaTransactionManager {
@@ -64,7 +64,7 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
     @PostConstruct
     public void postConstruct() {
         if (jpaEclipseLinkProperties().isPresent()) {
-            unitOfWorkChangeSetQueue = new AutoCommittingConcurrentLinkedDeque<>(asyncWriter, jpaEclipseLinkProperties().get(),commitService);
+            unitOfWorkChangeSetQueue = newDeque(asyncWriter, jpaEclipseLinkProperties().get(), commitService);
         }
     }
 }

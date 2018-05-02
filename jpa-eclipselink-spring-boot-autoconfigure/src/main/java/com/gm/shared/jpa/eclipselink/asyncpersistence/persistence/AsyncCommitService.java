@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.persistence;
+package com.gm.shared.jpa.eclipselink.asyncpersistence.persistence;
 
 import com.gm.shared.jpa.eclipselink.asyncpersistence.AsyncWriter;
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
@@ -13,18 +13,22 @@ import java.util.Deque;
 import java.util.List;
 
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
+import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittingConcurrentLinkedDeque.newDeque;
 
 @Component
 public class AsyncCommitService {
 
     @Autowired
     private AsyncWriter asyncWriter;
+    @Autowired
+    private JpaEclipseLinkProperties jpaEclipseLinkProperties;
+    @Autowired
+    private AsyncCommitService asyncCommitService;
 
     @Async
-    @Scheduled(fixedDelay = 1000000)
     public void doCommit(Deque<AsyncPersistenceObjectChangeSet> queue) {
 
-        if (jpaEclipseLinkProperties().isPresent()) {
+        if (queue != null) {
             JpaEclipseLinkProperties jpaEclipseLinkProperties = jpaEclipseLinkProperties().get();
             int size = queue.size();
             if (size == jpaEclipseLinkProperties.getAsyncCommitCount()) {
@@ -44,6 +48,11 @@ public class AsyncCommitService {
 
             }
         }
+    }
+
+    @Scheduled(fixedDelay = 1000000)
+    public void doCommit() {
+        doCommit(newDeque(asyncWriter, jpaEclipseLinkProperties, asyncCommitService));
     }
 
 
