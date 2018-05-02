@@ -109,7 +109,7 @@ Including this lib will bring Spring Data features automatically.
   soon as JpaTransactionManager commit is called and threadbound transaction/changeset will be collected/queued. But when configured **eclipselink-async-commitcount** (i.e. tranaction commits) are reached, the collected/queued transactions/changeset
   will be committed asynchronously in a diffrent thread. This feature is also similar to **write behind** cache of [Coherence](https://docs.oracle.com/cd/E15357_01/coh.360/e15723/cache_rtwtwbra.htm#COHDG5177)/[Hazelcast](http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html#map) but with zero
   serialization/de-serialization cost. As a consequence, this feature is ideal for applications which requires very fast
-  persistence and **do not want active thread waste any wait time in persistence**. It is also idea match for reactive programming. 
+  persistence and **do not want active thread waste any wait time in persistence**. It is also ideal match for reactive programming. 
   
   **NOTE** Async persistence is only activated if property **eclipselink-async-commitcount** is added to application.yml
   file in your application/service.
