@@ -114,6 +114,8 @@ persistence and **do not want active thread wastes any time in persistence**. It
   **NOTE** Async persistence is only activated if property **eclipselink-async-commitcount** is added to application.yml
   file in your application/service.
   
+  **NOTE** If in case of error(s), async persistence automatically switch to row by row commit. The errored row/exception will be passed to ErrorHandler (if configured) else it will logged.
+  
    Example JPA/Eclipselink configurations of an application consuming jpa-eclipselink lib
    
    ```` yaml
