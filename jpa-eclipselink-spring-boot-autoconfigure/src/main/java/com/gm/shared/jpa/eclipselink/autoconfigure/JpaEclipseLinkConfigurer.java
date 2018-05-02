@@ -56,7 +56,7 @@ public class JpaEclipseLinkConfigurer {
         this.properties.forEach((key, value) -> {
             properties.setProperty(key, value);
 
-            if (key.contains("eclipselink.async")) {
+            if (key.contains("eclipselink-async")) {
                 int asyncCommitCount = key.equals("eclipselink-async-commitcount") ? Integer.parseInt(value) : 1000;
                 newJpaEclipseLinkProperties(asyncCommitCount);
 
