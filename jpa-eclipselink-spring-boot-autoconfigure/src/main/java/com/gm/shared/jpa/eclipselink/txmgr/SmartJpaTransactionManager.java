@@ -7,7 +7,6 @@ import com.gm.shared.jpa.eclipselink.asyncpersistence.persistence.AsyncCommitSer
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.DefaultTransactionStatus;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +17,6 @@ import java.util.Queue;
 import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittingConcurrentLinkedDeque.newDeque;
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
 
-@Component
 public class SmartJpaTransactionManager extends JpaTransactionManager {
     @PersistenceContext
     private EntityManager entityManager;

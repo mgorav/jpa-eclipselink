@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -44,7 +45,7 @@ public class AsyncPersistenceObjectChangeSet {
             asyncPersistenceObjectChangeSetId = "[only available if trace is enabled]";
         }
         // We just set the capacity of Map to some logically high number based on the commit size
-        int commitCount = jpaEclipseLinkProperties.getAsyncCommitCount();
+        int commitCount = jpaEclipseLinkProperties().isPresent() ? jpaEclipseLinkProperties().get().getAsyncCommitCount() : 1;
         objectChangeSets = new HashMap<Class<?>, Set<Object>>(10 * commitCount);
         allObjectsInTxByVersion = new HashMap<Object, Long>(10 * commitCount);
         this.unitOfWorkChangeSet = unitOfWorkChangeSet;

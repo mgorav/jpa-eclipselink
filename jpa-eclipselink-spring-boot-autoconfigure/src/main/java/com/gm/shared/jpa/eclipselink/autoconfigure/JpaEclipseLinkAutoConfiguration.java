@@ -22,7 +22,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync
 @EnableScheduling
 //@ConditionalOnProperty("gm.shared.jpa")
-@ComponentScan(excludeFilters = {
+@ComponentScan( value = "com.gm.shared.jpa.eclipselink",
+        excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = HibernateJpaAutoConfiguration.class),
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = DataSourceAutoConfiguration.class),
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = TransactionAutoConfiguration.class)
