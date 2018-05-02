@@ -68,7 +68,7 @@ public class ThreadBoundEntityManagerHandler {
         // .entrySet returns Object
         // Collect new objects
         for (Object entry : queuedEntityManager.getActivePersistenceContext(null).getNewObjectsCloneToOriginal().entrySet()) {
-            Entry<Object, Object> newObjsClonedToOriginalEntry = CastUtil.uncheckedCast(entry);
+            Entry<Object, Object> newObjsClonedToOriginalEntry = uncheckedCast(entry);
             Object newObj = newObjsClonedToOriginalEntry.getKey();
             changeSet.registerObjectChange(newObj.getClass(), session.getId(newObj));
 
