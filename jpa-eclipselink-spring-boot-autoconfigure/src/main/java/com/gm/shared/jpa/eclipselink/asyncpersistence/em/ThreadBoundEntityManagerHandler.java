@@ -31,6 +31,12 @@ public class ThreadBoundEntityManagerHandler {
     @SuppressWarnings("rawtypes")
     public AsyncPersistenceObjectChangeSet calculateChanges(EntityManager entityManager) {
 
+        // This is required we are setting thread bound entity manager to NULL. In cased suspended exception, handler
+        // might be called multiple times
+        if (entityManager == null) {
+            return null;
+        }
+
         EntityManagerImpl queuedEntityManager = ((EntityManagerImpl) nativeEM(entityManager));
         // Create customized UnitOfWorkChangeSet and trigger calculate change set on it.
         // After that move all the newly added entities to the ObjectChangeSet of UnitOfWorkChangeSet
