@@ -15,11 +15,11 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
     private final Project project;
     private final ClassDescriptor currentClassDescriptor;
     private T currentDatabaseMapping;
-    private final Queue<Class<?>> referencedClasses;
+    private final Queue<Class<?>> currentReferencedClasses;
 
     public MappingWeavingContext(ClassDescriptor currentClassDescriptor) {
         this.currentClassDescriptor = currentClassDescriptor;
-        this.referencedClasses = new ArrayDeque<>();
+        this.currentReferencedClasses = new ArrayDeque<>();
         this.project = new Project();
     }
 
@@ -37,15 +37,15 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
 
     public Class<?> getReferencedClass() {
 
-        return referencedClasses.poll();
+        return currentReferencedClasses.poll();
     }
 
     public boolean hasReferencedClass() {
-        return referencedClasses.peek() != null;
+        return currentReferencedClasses.peek() != null;
     }
 
     public void setReferencedClass(Class<?> referencedClass) {
-        referencedClasses.offer(referencedClass);
+        currentReferencedClasses.offer(referencedClass);
     }
 
 }
