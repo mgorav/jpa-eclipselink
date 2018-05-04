@@ -40,7 +40,7 @@ public class MappingWeaver {
 
         while (weavingContext.hasReferencedClass()) {
             Class<?> referencedClass = weavingContext.getReferencedClass();
-            // recurse, till there are not mappings
+            // recurse, till there are no mappings
             doWeaveXmlClassDescriptor(session, session.getClassDescriptor(aClass));
         }
     }
