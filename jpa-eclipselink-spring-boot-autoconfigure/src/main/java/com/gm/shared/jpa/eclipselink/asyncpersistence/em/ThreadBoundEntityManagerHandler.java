@@ -2,7 +2,6 @@ package com.gm.shared.jpa.eclipselink.asyncpersistence.em;
 
 
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
-import com.gm.shared.jpa.eclipselink.asyncpersistence.util.CastUtil;
 import lombok.extern.log4j.Log4j;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
@@ -14,8 +13,8 @@ import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.AsyncPersistenceUtil.nativeEM;
-import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.CastUtil.uncheckedCast;
+import static com.gm.shared.jpa.eclipselink.utils.Utils.nativeEM;
+import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
 
 /**
  * This handler provide the followings:-
@@ -23,7 +22,7 @@ import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.CastUtil.unche
  * performing the commit.
  * 2. It creates custom UnitOfWorkChangeSet and pushes ObjectChangeSet to it.
  */
-@Component
+//@Component
 @Log4j
 public class ThreadBoundEntityManagerHandler {
 

@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.AsyncPersistenceUtil.nativeEM;
+import static com.gm.shared.jpa.eclipselink.utils.Utils.nativeEM;
 import static java.util.Arrays.asList;
 import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 

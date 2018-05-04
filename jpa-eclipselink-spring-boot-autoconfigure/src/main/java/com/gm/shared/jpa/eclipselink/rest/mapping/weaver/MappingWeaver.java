@@ -5,6 +5,7 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingVisitorLocator;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
+import org.eclipse.persistence.sessions.Project;
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -20,16 +21,17 @@ public class MappingWeaver {
     public void weave(Session session) {
 
         session.getDescriptors().forEach((aClass, cd) -> {
-            doWeaveXmlClassDescriptor(session, cd);
+            Project project = new Project();
+            doWeaveXmlClassDescriptor(session,project, cd);
 
         });
 
     }
 
-    private void doWeaveXmlClassDescriptor(Session session, ClassDescriptor cd) {
+    private void doWeaveXmlClassDescriptor(Session session, Project project,ClassDescriptor cd) {
 
         Class<?> aClass = cd.getJavaClass();
-        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(cd);
+        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(project,cd);
 
 
         cd.getMappings().forEach(mapping -> {
@@ -41,7 +43,7 @@ public class MappingWeaver {
         while (weavingContext.hasReferencedClass()) {
             Class<?> referencedClass = weavingContext.getReferencedClass();
             // recurse, till there are no mappings
-            doWeaveXmlClassDescriptor(session, session.getClassDescriptor(aClass));
+            doWeaveXmlClassDescriptor(session, project,session.getClassDescriptor(aClass));
         }
     }
 }

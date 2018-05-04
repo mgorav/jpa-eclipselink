@@ -5,7 +5,7 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.mappings.OneToOneMapping;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class OneToOneMappingWeavingVisitor implements MappingWeavingVisitor<OneToOneMapping> {
 
     @Override

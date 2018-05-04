@@ -11,7 +11,7 @@ public interface MappingWeavingVisitor<T extends DatabaseMapping> {
      * Visit JPA mapping {@link DatabaseMapping} of {@link ClassDescriptor} & covert it
      * {@link org.eclipse.persistence.oxm.mappings.XMLMapping} & add it to {@link XMLDescriptor}
      */
-    void visit(MappingWeavingContext context);
+    void visit(MappingWeavingContext<T> context);
 
     Class<T> getDatabaseMapping();
 

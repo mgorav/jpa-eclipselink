@@ -17,10 +17,10 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
     private T currentDatabaseMapping;
     private final Queue<Class<?>> currentReferencedClasses;
 
-    public MappingWeavingContext(ClassDescriptor currentClassDescriptor) {
+    public MappingWeavingContext(Project project, ClassDescriptor currentClassDescriptor) {
         this.currentClassDescriptor = currentClassDescriptor;
         this.currentReferencedClasses = new ArrayDeque<>();
-        this.project = new Project();
+        this.project = project;
     }
 
     public XMLDescriptor getXMLDescriptorFor(Class<?> aClass) {
@@ -28,6 +28,9 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
 
         if (xmlDescriptor == null) {
             xmlDescriptor = new XMLDescriptor();
+            xmlDescriptor.setDefaultRootElement(aClass.getSimpleName());
+            xmlDescriptor.setJavaClass(aClass);
+            xmlDescriptor.setFullyMergeEntity(true);
             project.addDescriptor(xmlDescriptor);
         }
 
@@ -48,4 +51,12 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         currentReferencedClasses.offer(referencedClass);
     }
 
+    public void addMapping(DatabaseMapping mapping) {
+        getXMLDescriptorFor(currentClassDescriptor.getJavaClass()).addMapping(mapping);
+    }
+
+    public boolean mappingDoesNotExistFor(String attributeName) {
+
+        return getXMLDescriptorFor(currentClassDescriptor.getJavaClass()).getMappingForAttributeName(attributeName) == null;
+    }
 }

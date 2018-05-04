@@ -1,15 +1,16 @@
 package com.gm.shared.jpa.eclipselink.rest.mapping.visitor;
 
 import org.eclipse.persistence.mappings.DatabaseMapping;
+import org.eclipse.persistence.mappings.ForeignReferenceMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.CastUtil.uncheckedCast;
+import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
 
-@Component
+//@Component
 public class MappingVisitorLocator {
 
     private List<? extends MappingWeavingVisitor<? extends DatabaseMapping>> visitors;

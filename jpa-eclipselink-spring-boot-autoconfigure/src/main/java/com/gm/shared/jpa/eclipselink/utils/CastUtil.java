@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.asyncpersistence.util;
+package com.gm.shared.jpa.eclipselink.utils;
 
 import java.math.BigDecimal;
 import java.util.List;

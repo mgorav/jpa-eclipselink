@@ -1,10 +1,13 @@
-package com.gm.shared.jpa.eclipselink.asyncpersistence.util;
+package com.gm.shared.jpa.eclipselink.utils;
+
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+import org.eclipse.persistence.sessions.Session;
 
 import javax.persistence.EntityManager;
 
 import static org.springframework.aop.support.AopUtils.*;
 
-public class AsyncPersistenceUtil {
+public class Utils {
 
     public static EntityManager nativeEM(EntityManager em) {
 
@@ -16,6 +19,12 @@ public class AsyncPersistenceUtil {
 
         return retEM;
 
+    }
+
+
+    public static Session activeSession(EntityManager entityManager) {
+        EntityManagerImpl emImpl = (EntityManagerImpl) nativeEM(entityManager);
+        return emImpl.getActiveSession();
     }
 
     public static void waitFor(int timeInMills) {

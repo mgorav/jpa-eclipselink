@@ -16,7 +16,7 @@ import java.util.List;
 import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittingConcurrentLinkedDeque.newDeque;
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
 
-@Component
+//@Component
 public class AsyncCommitService {
 
     @Autowired
