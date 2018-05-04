@@ -14,4 +14,9 @@ public class DirectToFieldMappingWeavingVisitor implements MappingWeavingVisitor
 
     }
 
+    @Override
+    public Class<DirectToFieldMapping> getDatabaseMapping() {
+        return DirectToFieldMapping.class;
+    }
+
 }

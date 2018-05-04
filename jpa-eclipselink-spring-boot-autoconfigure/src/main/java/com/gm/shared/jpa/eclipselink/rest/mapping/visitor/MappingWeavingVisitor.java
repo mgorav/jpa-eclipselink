@@ -13,5 +13,7 @@ public interface MappingWeavingVisitor<T extends DatabaseMapping> {
      */
     void visit(MappingWeavingContext context);
 
+    Class<T> getDatabaseMapping();
+
 
 }

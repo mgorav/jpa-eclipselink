@@ -12,4 +12,9 @@ public class OneToOneMappingWeavingVisitor implements MappingWeavingVisitor<OneT
     public void visit(MappingWeavingContext context) {
 
     }
+
+    @Override
+    public Class<OneToOneMapping> getDatabaseMapping() {
+        return OneToOneMapping.class;
+    }
 }

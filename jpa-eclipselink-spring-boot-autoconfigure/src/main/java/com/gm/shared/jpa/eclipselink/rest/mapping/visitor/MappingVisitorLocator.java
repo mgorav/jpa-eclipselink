@@ -13,19 +13,19 @@ import static com.gm.shared.jpa.eclipselink.asyncpersistence.util.CastUtil.unche
 public class MappingVisitorLocator {
 
     private List<? extends MappingWeavingVisitor<? extends DatabaseMapping>> visitors;
-    private Map<? extends DatabaseMapping, ? extends MappingWeavingVisitor<? extends DatabaseMapping>> mappingVsVisitors;
+    private Map<Class<? extends DatabaseMapping>, MappingWeavingVisitor<DatabaseMapping>> mappingVsVisitors;
 
     @Autowired
-    public MappingVisitorLocator(List<? extends MappingWeavingVisitor<? extends DatabaseMapping>> visitors) {
+    public MappingVisitorLocator(List<MappingWeavingVisitor<DatabaseMapping>> visitors) {
         this.visitors = visitors;
 
-        visitors.stream().forEach( visitor -> {
-            // TODO
+        visitors.stream().forEach(visitor -> {
+            mappingVsVisitors.put(visitor.getDatabaseMapping(), visitor);
 
         });
     }
 
-    public <M extends DatabaseMapping,V extends MappingWeavingVisitor<M>> V visitorForMapping(M mapping) {
+    public <M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> V visitorForMapping(M mapping) {
 
         return uncheckedCast(mappingVsVisitors.get(mapping.getClass()));
     }

@@ -32,8 +32,6 @@ public class MappingWeaver {
         MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(cd);
 
 
-
-
         cd.getMappings().forEach(mapping -> {
 
             MappingWeavingVisitor<DatabaseMapping> visitor = locator.visitorForMapping(mapping);
