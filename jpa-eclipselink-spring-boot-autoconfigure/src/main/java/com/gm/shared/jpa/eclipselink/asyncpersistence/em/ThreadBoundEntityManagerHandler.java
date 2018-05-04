@@ -22,7 +22,7 @@ import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
  * performing the commit.
  * 2. It creates custom UnitOfWorkChangeSet and pushes ObjectChangeSet to it.
  */
-//@Component
+@Component
 @Log4j
 public class ThreadBoundEntityManagerHandler {
 
