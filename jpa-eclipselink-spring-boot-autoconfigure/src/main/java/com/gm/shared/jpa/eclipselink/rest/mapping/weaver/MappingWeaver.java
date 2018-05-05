@@ -1,7 +1,7 @@
 package com.gm.shared.jpa.eclipselink.rest.mapping.weaver;
 
 import com.gm.shared.jpa.eclipselink.rest.mapping.context.MappingWeavingContext;
-import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingVisitorLocator;
+import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.locator.MappingVisitorLocator;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
@@ -12,26 +12,25 @@ import org.springframework.beans.factory.annotation.Configurable;
 import java.util.Map;
 
 @Configurable
-// TODO add load time aspectJ weaving for @Configurable
-public class MappingWeaver {
+public class MappingWeaver<M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> {
 
-    private MappingVisitorLocator locator;
+    private MappingVisitorLocator<M, V> locator;
     private Map<Class<?>, MappingWeavingContext> metadata;
 
     public void weave(Session session) {
 
         session.getDescriptors().forEach((aClass, cd) -> {
             Project project = new Project();
-            doWeaveXmlClassDescriptor(session,project, cd);
+            doWeaveXmlClassDescriptor(session, project, cd);
 
         });
 
     }
 
-    private void doWeaveXmlClassDescriptor(Session session, Project project,ClassDescriptor cd) {
+    private void doWeaveXmlClassDescriptor(Session session, Project project, ClassDescriptor cd) {
 
         Class<?> aClass = cd.getJavaClass();
-        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(project,cd);
+        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(project, cd);
 
 
         cd.getMappings().forEach(mapping -> {
@@ -43,7 +42,7 @@ public class MappingWeaver {
         while (weavingContext.hasReferencedClass()) {
             Class<?> referencedClass = weavingContext.getReferencedClass();
             // recurse, till there are no mappings
-            doWeaveXmlClassDescriptor(session, project,session.getClassDescriptor(aClass));
+            doWeaveXmlClassDescriptor(session, project, session.getClassDescriptor(aClass));
         }
     }
 }

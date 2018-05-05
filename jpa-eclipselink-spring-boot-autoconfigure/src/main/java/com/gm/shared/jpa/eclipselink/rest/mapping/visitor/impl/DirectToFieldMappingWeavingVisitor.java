@@ -5,18 +5,16 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.context.MappingWeavingContext;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
 import org.eclipse.persistence.oxm.mappings.XMLDirectMapping;
-import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 
-//@Component
 public class DirectToFieldMappingWeavingVisitor implements MappingWeavingVisitor<DirectToFieldMapping> {
 
 
     @Override
-    public void visit(MappingWeavingContext context) {
+    public void visit(MappingWeavingContext<DirectToFieldMapping> context) {
 
-        DirectToFieldMapping directToFieldMapping = (DirectToFieldMapping) context.getCurrentDatabaseMapping();
+        DirectToFieldMapping directToFieldMapping = context.getCurrentDatabaseMapping();
         String attributeName = directToFieldMapping.getAttributeName();
 
         if (context.mappingDoesNotExistFor(attributeName)) {

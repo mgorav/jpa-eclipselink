@@ -2,19 +2,20 @@ package com.gm.shared.jpa.eclipselink.asyncpersistence.em;
 
 
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
-import lombok.extern.log4j.Log4j;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.internal.sessions.ObjectChangeSet;
 import org.eclipse.persistence.internal.sessions.UnitOfWorkChangeSet;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static com.gm.shared.jpa.eclipselink.utils.Utils.nativeEM;
 import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
+import static com.gm.shared.jpa.eclipselink.utils.Utils.nativeEM;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * This handler provide the followings:-
@@ -23,9 +24,8 @@ import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
  * 2. It creates custom UnitOfWorkChangeSet and pushes ObjectChangeSet to it.
  */
 @Component
-@Log4j
 public class ThreadBoundEntityManagerHandler {
-
+    private static final Logger log = getLogger(ThreadBoundEntityManagerHandler.class);
 
     @SuppressWarnings("rawtypes")
     public AsyncPersistenceObjectChangeSet calculateChanges(EntityManager entityManager) {

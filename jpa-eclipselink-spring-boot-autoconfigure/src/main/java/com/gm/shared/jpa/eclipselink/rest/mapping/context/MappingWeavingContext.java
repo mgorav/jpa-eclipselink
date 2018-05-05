@@ -1,6 +1,5 @@
 package com.gm.shared.jpa.eclipselink.rest.mapping.context;
 
-import lombok.Data;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.oxm.XMLDescriptor;
@@ -10,7 +9,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 
-@Data
 public class MappingWeavingContext<T extends DatabaseMapping> {
     private final Project project;
     private final ClassDescriptor currentClassDescriptor;
@@ -37,6 +35,13 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         return xmlDescriptor;
     }
 
+    public ClassDescriptor getCurrentClassDescriptor() {
+        return currentClassDescriptor;
+    }
+
+    public T getCurrentDatabaseMapping() {
+        return currentDatabaseMapping;
+    }
 
     public Class<?> getReferencedClass() {
 

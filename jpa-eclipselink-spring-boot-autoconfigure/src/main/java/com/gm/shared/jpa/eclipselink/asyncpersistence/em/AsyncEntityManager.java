@@ -2,10 +2,10 @@ package com.gm.shared.jpa.eclipselink.asyncpersistence.em;
 
 import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistenceObjectChangeSet;
 import com.gm.shared.jpa.eclipselink.errorhandling.ErrorHandler;
-import lombok.extern.log4j.Log4j;
 import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.internal.sessions.UnitOfWorkChangeSet;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.gm.shared.jpa.eclipselink.utils.Utils.nativeEM;
 import static java.util.Arrays.asList;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
 /**
@@ -30,10 +31,9 @@ import static org.springframework.transaction.TransactionDefinition.PROPAGATION_
  * case of an error (exception scenario)
  */
 @Component
-@Log4j
 public class AsyncEntityManager {
 
-
+    private static final Logger log = getLogger(AsyncEntityManager.class);
     @PersistenceContext
     private EntityManager activeEntityManager;
     @Autowired

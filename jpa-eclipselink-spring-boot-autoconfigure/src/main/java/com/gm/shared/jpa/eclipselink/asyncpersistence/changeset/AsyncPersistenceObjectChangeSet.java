@@ -2,10 +2,10 @@ package com.gm.shared.jpa.eclipselink.asyncpersistence.changeset;
 
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import com.google.common.base.MoreObjects.ToStringHelper;
-import lombok.extern.log4j.Log4j;
 import org.eclipse.persistence.descriptors.VersionLockingPolicy;
 import org.eclipse.persistence.internal.sessions.*;
 import org.eclipse.persistence.sessions.changesets.ChangeRecord;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,14 +17,15 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.UUID.randomUUID;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * This contain all the {@link UnitOfWorkChangeSet} being used by thread bound EM. This call also memories list objects modified within
  * the transaction and its version number before batch committing
  */
-@Log4j
 public class AsyncPersistenceObjectChangeSet {
 
+    private static final Logger log = getLogger(AsyncPersistenceObjectChangeSet.class);
     private final String asyncPersistenceObjectChangeSetId;
     private Map<Class<?>, Set<Object>> objectChangeSets;
     private UnitOfWorkChangeSet unitOfWorkChangeSet;

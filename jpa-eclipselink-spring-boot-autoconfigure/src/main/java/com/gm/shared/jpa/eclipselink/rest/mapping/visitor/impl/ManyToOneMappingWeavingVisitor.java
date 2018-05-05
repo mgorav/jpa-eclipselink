@@ -6,14 +6,11 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.exceptions.DescriptorException;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.mappings.AttributeAccessor;
-import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.mappings.ForeignReferenceMapping;
 import org.eclipse.persistence.mappings.ManyToOneMapping;
 import org.eclipse.persistence.oxm.XMLDescriptor;
 import org.eclipse.persistence.oxm.mappings.XMLCompositeObjectMapping;
 import org.eclipse.persistence.oxm.mappings.XMLInverseReferenceMapping;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,23 +19,22 @@ import static com.gm.shared.jpa.eclipselink.utils.MappingUtil.biDirectionalMappe
 import static com.gm.shared.jpa.eclipselink.utils.Utils.activeSession;
 import static org.springframework.util.StringUtils.isEmpty;
 
-//@Component
 public class ManyToOneMappingWeavingVisitor implements MappingWeavingVisitor<ManyToOneMapping> {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public void visit(MappingWeavingContext context) {
+    public void visit(MappingWeavingContext<ManyToOneMapping> context) {
 
-        ManyToOneMapping manyToOneMapping = (ManyToOneMapping) context.getCurrentDatabaseMapping();
-        Class<?> refClass = manyToOneMapping.getReferenceClass();
-        String attributeName = manyToOneMapping.getAttributeName();
+        ForeignReferenceMapping fkMapping = context.getCurrentDatabaseMapping();
+        Class<?> refClass = fkMapping.getReferenceClass();
+        String attributeName = fkMapping.getAttributeName();
 
         if (context.mappingDoesNotExistFor(attributeName)) {
 
 
-            String biDirectionalMappedBy = biDirectionalMappedBy(manyToOneMapping);
+            String biDirectionalMappedBy = biDirectionalMappedBy(fkMapping);
 
             if (!isEmpty(biDirectionalMappedBy)) {
 
@@ -73,6 +69,7 @@ public class ManyToOneMappingWeavingVisitor implements MappingWeavingVisitor<Man
     public Class<ManyToOneMapping> getDatabaseMapping() {
         return ManyToOneMapping.class;
     }
+
     private XMLCompositeObjectMapping createXmlObjectMappingFrom(MappingWeavingContext<ManyToOneMapping> context) {
 
         ManyToOneMapping fkMapping = context.getCurrentDatabaseMapping();

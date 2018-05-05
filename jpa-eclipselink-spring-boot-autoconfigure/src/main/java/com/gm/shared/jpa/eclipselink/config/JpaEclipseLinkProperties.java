@@ -1,13 +1,9 @@
 package com.gm.shared.jpa.eclipselink.config;
 
-import lombok.Getter;
-
 import java.util.Optional;
 
-import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
-@Getter
 public class JpaEclipseLinkProperties {
 
     private int asyncCommitCount;
@@ -19,9 +15,17 @@ public class JpaEclipseLinkProperties {
         this.asyncPersistence = asyncPersistence;
     }
 
+    public int getAsyncCommitCount() {
+        return asyncCommitCount;
+    }
+
+    public boolean isAsyncPersistence() {
+        return asyncPersistence;
+    }
+
     public static JpaEclipseLinkProperties newJpaEclipseLinkProperties(int asyncCommitCount) {
         if (jpaEclipseLinkProperties == null) {
-            jpaEclipseLinkProperties = new JpaEclipseLinkProperties(asyncCommitCount,true);
+            jpaEclipseLinkProperties = new JpaEclipseLinkProperties(asyncCommitCount, true);
         }
         return jpaEclipseLinkProperties;
     }
