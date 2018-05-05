@@ -26,6 +26,7 @@ public class JpaEclipseLinkControllerCustomizer implements SessionCustomizer {
     @Override
     public void customize(Session session) throws Exception {
 
+        log.debug("Starting session customization");
         sort(customizers);
         customizers.forEach(customizer -> {
             try {
@@ -36,6 +37,7 @@ public class JpaEclipseLinkControllerCustomizer implements SessionCustomizer {
             }
         });
 
+        log.debug("Session customization completed");
 
     }
 }
