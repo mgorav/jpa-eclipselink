@@ -11,6 +11,7 @@ import org.eclipse.persistence.mappings.ManyToOneMapping;
 import org.eclipse.persistence.oxm.XMLDescriptor;
 import org.eclipse.persistence.oxm.mappings.XMLCompositeObjectMapping;
 import org.eclipse.persistence.oxm.mappings.XMLInverseReferenceMapping;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,6 +22,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 
 public class ManyToOneMappingWeavingVisitor implements MappingWeavingVisitor<ManyToOneMapping> {
 
+    @Lazy
     @PersistenceContext
     private EntityManager entityManager;
 

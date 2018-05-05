@@ -43,6 +43,10 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         return currentDatabaseMapping;
     }
 
+    public void setCurrentDatabaseMapping(T currentDatabaseMapping) {
+        this.currentDatabaseMapping = currentDatabaseMapping;
+    }
+
     public Class<?> getReferencedClass() {
 
         return currentReferencedClasses.poll();

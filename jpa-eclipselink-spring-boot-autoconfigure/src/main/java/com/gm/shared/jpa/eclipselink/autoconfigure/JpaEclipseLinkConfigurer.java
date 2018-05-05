@@ -1,7 +1,6 @@
 package com.gm.shared.jpa.eclipselink.autoconfigure;
 
-import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
-import com.gm.shared.jpa.eclipselink.customizer.EclipseLinkCustomizer;
+import com.gm.shared.jpa.eclipselink.customizer.controller.JpaEclipseLinkControllerCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
@@ -10,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -31,7 +30,6 @@ import static org.springframework.util.StringUtils.collectionToCommaDelimitedStr
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "gm.shared.jpa")
-@Import({JpaDataSourceConfigurer.class, JpaTransactionManagerConfigurer.class})
 public class JpaEclipseLinkConfigurer {
 
     private Map<String, String> properties;
@@ -39,8 +37,10 @@ public class JpaEclipseLinkConfigurer {
     @Autowired
     private ApplicationContext applicationContext;
 
+
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("jpaDataSource") DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Qualifier("jpaDataSource") DataSource dataSource,
+                                                                       BeanLocator beanLocator) {
         LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
         emfBean.setDataSource(dataSource);
 
@@ -58,13 +58,14 @@ public class JpaEclipseLinkConfigurer {
 
             if (key.contains("eclipselink-async")) {
                 int asyncCommitCount = key.equals("eclipselink-async-commitcount") ? Integer.parseInt(value) : 1000;
-                newJpaEclipseLinkProperties(asyncCommitCount);
-
+                newJpaEclipseLinkProperties().setAsyncCommitCount(asyncCommitCount);
             }
 
             setDefaultEclipseLinkJpaProperties(properties);
 
             enableEclipseLinkLoggingIfConfigured(properties, key, value);
+
+            properties.setProperty("eclipselink.session.customizer", JpaEclipseLinkControllerCustomizer.class.getCanonicalName());
 
             enableEclipseLinkProfierIfConfigured(properties, key, value);
         });
@@ -78,10 +79,12 @@ public class JpaEclipseLinkConfigurer {
 
     private void enableEclipseLinkProfierIfConfigured(Properties properties, String key, String value) {
         if (key.equals("eclipselink-performance.profiler")) {
-            if (!properties.contains("eclipselink.session.customizer") && Boolean.valueOf(value)) {
-                properties.setProperty("eclipselink.session.customizer", EclipseLinkCustomizer.class.getCanonicalName());
-
-            }
+            newJpaEclipseLinkProperties().setAsyncPersistence(true);
+            // TODO
+//            if (!properties.contains("eclipselink.session.customizer") && Boolean.valueOf(value)) {
+//                properties.setProperty("eclipselink.session.customizer", PerformanceProfilerCustomizer.class.getCanonicalName());
+//
+//            }
         }
     }
 

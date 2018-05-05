@@ -8,11 +8,10 @@ public class JpaEclipseLinkProperties {
 
     private int asyncCommitCount;
     private boolean asyncPersistence;
+    private boolean enableEclipseLinkProfiling;
     private static JpaEclipseLinkProperties jpaEclipseLinkProperties;
 
-    private JpaEclipseLinkProperties(int asyncCommitCount, boolean asyncPersistence) {
-        this.asyncCommitCount = asyncCommitCount;
-        this.asyncPersistence = asyncPersistence;
+    private JpaEclipseLinkProperties() {
     }
 
     public int getAsyncCommitCount() {
@@ -23,9 +22,26 @@ public class JpaEclipseLinkProperties {
         return asyncPersistence;
     }
 
-    public static JpaEclipseLinkProperties newJpaEclipseLinkProperties(int asyncCommitCount) {
+    public void setAsyncCommitCount(int asyncCommitCount) {
+        this.asyncCommitCount = asyncCommitCount;
+        asyncPersistence = true;
+    }
+
+    public void setAsyncPersistence(boolean asyncPersistence) {
+        this.asyncPersistence = asyncPersistence;
+    }
+
+    public boolean isEnableEclipseLinkProfiling() {
+        return enableEclipseLinkProfiling;
+    }
+
+    public void setEnableEclipseLinkProfiling(boolean enableEclipseLinkgProfiling) {
+        this.enableEclipseLinkProfiling = enableEclipseLinkgProfiling;
+    }
+
+    public static JpaEclipseLinkProperties newJpaEclipseLinkProperties() {
         if (jpaEclipseLinkProperties == null) {
-            jpaEclipseLinkProperties = new JpaEclipseLinkProperties(asyncCommitCount, true);
+            jpaEclipseLinkProperties = new JpaEclipseLinkProperties();
         }
         return jpaEclipseLinkProperties;
     }
