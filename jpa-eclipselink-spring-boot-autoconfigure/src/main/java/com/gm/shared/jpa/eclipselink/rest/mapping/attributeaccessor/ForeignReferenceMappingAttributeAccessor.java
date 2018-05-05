@@ -12,12 +12,15 @@ import javax.persistence.EntityManager;
 import static com.gm.shared.jpa.eclipselink.utils.Utils.activeSession;
 
 @Configurable
-public class ManyToOneMappingAttributeAccessor extends AttributeAccessor {
+/**
+ * For ManyToOne and OneToOne
+ */
+public class ForeignReferenceMappingAttributeAccessor extends AttributeAccessor {
     private final ForeignReferenceMapping fkMapping;
     @Autowired
     private EntityManager em;
 
-    public ManyToOneMappingAttributeAccessor(ForeignReferenceMapping fkMapping) {
+    public ForeignReferenceMappingAttributeAccessor(ForeignReferenceMapping fkMapping) {
         this.fkMapping = fkMapping;
     }
 

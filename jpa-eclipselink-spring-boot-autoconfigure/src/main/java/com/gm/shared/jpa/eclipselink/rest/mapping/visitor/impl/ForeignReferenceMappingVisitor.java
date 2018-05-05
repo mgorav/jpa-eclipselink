@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.rest.mapping.visitor.impl;
 
-import com.gm.shared.jpa.eclipselink.rest.mapping.attributeaccessor.ManyToOneMappingAttributeAccessor;
+import com.gm.shared.jpa.eclipselink.rest.mapping.attributeaccessor.ForeignReferenceMappingAttributeAccessor;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import com.gm.shared.jpa.eclipselink.rest.mapping.weaving.context.MappingWeavingContext;
 import org.eclipse.persistence.exceptions.DescriptorException;
@@ -81,7 +81,7 @@ public class ForeignReferenceMappingVisitor implements MappingWeavingVisitor<For
 
         final Class<?> refClass = fkMapping.getReferenceClass();
         final XMLCompositeObjectMapping compositeObjectMapping = new XMLCompositeObjectMapping();
-        compositeObjectMapping.setAttributeAccessor(new ManyToOneMappingAttributeAccessor(fkMapping));
+        compositeObjectMapping.setAttributeAccessor(new ForeignReferenceMappingAttributeAccessor(fkMapping));
 
         compositeObjectMapping.setXPath(attributeName);
         compositeObjectMapping.setReferenceClass(refClass);
