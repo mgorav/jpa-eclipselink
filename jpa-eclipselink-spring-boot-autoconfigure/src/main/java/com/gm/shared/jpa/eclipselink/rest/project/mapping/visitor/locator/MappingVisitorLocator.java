@@ -1,0 +1,40 @@
+package com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.locator;
+
+import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.MappingWeavingVisitor;
+import org.eclipse.persistence.mappings.DatabaseMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
+
+@Component
+public class MappingVisitorLocator<M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> {
+
+    private Map<Class<M>, MappingWeavingVisitor<M>> mappingVsVisitors;
+
+    @Autowired
+    private List<V> visitors;
+
+
+    public <M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> V visitorForMapping(M mapping) {
+
+        return uncheckedCast(mappingVsVisitors.get(mapping.getClass()));
+    }
+
+
+    @PostConstruct
+    public void postConstruct() {
+
+        mappingVsVisitors = new HashMap<>(visitors.size());
+        visitors.stream().forEach(visitor -> {
+            mappingVsVisitors.put(visitor.getDatabaseMapping(), visitor);
+
+        });
+    }
+
+}
