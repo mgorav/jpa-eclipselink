@@ -1,6 +1,6 @@
-package com.gm.shared.jpa.eclipselink.rest.mapping.visitor;
+package com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor;
 
-import com.gm.shared.jpa.eclipselink.rest.mapping.weaving.context.MappingWeavingContext;
+import com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.context.MappingWeavingContext;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.oxm.XMLDescriptor;

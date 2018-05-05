@@ -1,7 +1,7 @@
-package com.gm.shared.jpa.eclipselink.rest.mapping.visitor.impl;
+package com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.impl;
 
-import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
-import com.gm.shared.jpa.eclipselink.rest.mapping.weaving.context.MappingWeavingContext;
+import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.MappingWeavingVisitor;
+import com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.context.MappingWeavingContext;
 import org.eclipse.persistence.mappings.ForeignReferenceMapping;
 import org.eclipse.persistence.mappings.ManyToOneMapping;
 import org.springframework.beans.factory.annotation.Autowired;

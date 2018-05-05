@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.rest.mapping.weaving.context;
+package com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.context;
 
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;

@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.rest.mapping.attributeaccessor;
+package com.gm.shared.jpa.eclipselink.rest.project.mapping.attributeaccessor;
 
 import org.eclipse.persistence.exceptions.DescriptorException;
 import org.eclipse.persistence.internal.queries.ContainerPolicy;
