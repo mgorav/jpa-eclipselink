@@ -4,7 +4,9 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.context.MappingWeavingContext;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.mappings.OneToOneMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OneToOneMappingWeavingVisitor implements MappingWeavingVisitor<OneToOneMapping> {
 
     @Autowired

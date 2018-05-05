@@ -12,6 +12,7 @@ import org.eclipse.persistence.oxm.XMLDescriptor;
 import org.eclipse.persistence.oxm.mappings.XMLCompositeObjectMapping;
 import org.eclipse.persistence.oxm.mappings.XMLInverseReferenceMapping;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +21,7 @@ import static com.gm.shared.jpa.eclipselink.utils.MappingUtil.biDirectionalMappe
 import static com.gm.shared.jpa.eclipselink.utils.Utils.activeSession;
 import static org.springframework.util.StringUtils.isEmpty;
 
+@Component
 public class ManyToOneMappingWeavingVisitor implements MappingWeavingVisitor<ManyToOneMapping> {
 
     @Lazy

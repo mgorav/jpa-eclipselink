@@ -6,9 +6,11 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.internal.queries.ContainerPolicy;
 import org.eclipse.persistence.mappings.OneToManyMapping;
 import org.eclipse.persistence.oxm.mappings.XMLCompositeCollectionMapping;
+import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 
+@Component
 public class OneToManyMappingWeavingVisitor implements MappingWeavingVisitor<OneToManyMapping> {
 
     @Override

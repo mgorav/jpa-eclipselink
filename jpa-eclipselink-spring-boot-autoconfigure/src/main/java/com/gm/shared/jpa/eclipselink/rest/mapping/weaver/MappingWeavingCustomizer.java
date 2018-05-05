@@ -9,6 +9,7 @@ import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.sessions.Project;
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Map;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.valueOf;
 
+@Component
 public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> implements JpaEclipseLinkCustomizer {
 
     @Autowired

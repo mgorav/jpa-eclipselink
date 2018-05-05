@@ -5,9 +5,11 @@ import com.gm.shared.jpa.eclipselink.rest.mapping.context.MappingWeavingContext;
 import com.gm.shared.jpa.eclipselink.rest.mapping.visitor.MappingWeavingVisitor;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
 import org.eclipse.persistence.oxm.mappings.XMLDirectMapping;
+import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 
+@Component
 public class DirectToFieldMappingWeavingVisitor implements MappingWeavingVisitor<DirectToFieldMapping> {
 
 

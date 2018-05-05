@@ -12,6 +12,7 @@ import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaE
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.valueOf;
 
+@Component
 public class PerformanceProfilerCustomizer implements JpaEclipseLinkCustomizer {
 
     @Override
