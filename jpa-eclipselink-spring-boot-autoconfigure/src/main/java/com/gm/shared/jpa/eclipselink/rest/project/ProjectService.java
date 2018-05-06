@@ -1,6 +1,5 @@
 package com.gm.shared.jpa.eclipselink.rest.project;
 
-import org.eclipse.persistence.oxm.MediaType;
 import org.eclipse.persistence.oxm.XMLContext;
 import org.eclipse.persistence.oxm.XMLMarshaller;
 import org.eclipse.persistence.oxm.XMLUnmarshaller;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.eclipse.persistence.oxm.MediaType.APPLICATION_JSON;
 
 @Component
 public class ProjectService {
@@ -38,13 +39,13 @@ public class ProjectService {
         return xmlContexts.containsKey(aClass);
     }
 
-    public XMLUnmarshaller unmarshaller(Class<?> aClass, MediaType mediaType) {
+    public XMLUnmarshaller unmarshaller(Class<?> aClass) {
 
 
         XMLContext xmlContext = getXmlContext(aClass);
 
         XMLUnmarshaller unmarshaller = xmlContext.createUnmarshaller();
-        unmarshaller.setMediaType(mediaType);
+        unmarshaller.setMediaType(APPLICATION_JSON);
 //         TODO   unmarshaller.setErrorHandler(new RestApiErrorHandler());
         if (unmarshaller.getMediaType().isApplicationJSON()) {
             unmarshaller.setWrapperAsCollectionName(true);
@@ -52,11 +53,11 @@ public class ProjectService {
         return unmarshaller;
     }
 
-    public XMLMarshaller xmlMarshaller(Class<?> aClass, MediaType mediaType) {
+    public XMLMarshaller xmlMarshaller(Class<?> aClass) {
 
         XMLContext xmlContext = getXmlContext(aClass);
         XMLMarshaller marshaller = xmlContext.createMarshaller();
-        marshaller.setMediaType(mediaType);
+        marshaller.setMediaType(APPLICATION_JSON);
         if (marshaller.getMediaType().isApplicationJSON()) {
             marshaller.setWrapperAsCollectionName(true);
         }

@@ -79,7 +79,7 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
      */
     @Override
     protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        return uncheckedCast(projectService.unmarshaller(clazz, org.eclipse.persistence.oxm.MediaType.APPLICATION_JSON).unmarshal(inputMessage.getBody(), clazz));
+        return uncheckedCast(projectService.unmarshaller(clazz).unmarshal(inputMessage.getBody(), clazz));
     }
 
     /**
@@ -93,7 +93,7 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
     @Override
     protected void writeInternal(T t, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 
-        projectService.xmlMarshaller(t.getClass(), org.eclipse.persistence.oxm.MediaType.APPLICATION_JSON).marshal(t, outputMessage.getBody());
+        projectService.xmlMarshaller(t.getClass()).marshal(t, outputMessage.getBody());
     }
 
     private boolean isJsonAndSupported(Class<?> aClass, MediaType mediaType) {
