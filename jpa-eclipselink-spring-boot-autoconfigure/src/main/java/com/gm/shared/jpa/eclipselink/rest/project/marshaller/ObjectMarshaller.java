@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Marshaller {
+public class ObjectMarshaller {
 
     @Autowired
     private ProjectService projectService;
