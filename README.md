@@ -17,6 +17,8 @@ auto configure:
 
 Including this lib will bring Spring Data features automatically. 
 
+**_jpa-eclipselink is only enabled when property gm.shared.jpa.spring.rest.enabled=true is present in application.yml_**
+
 #####Auto configure JPA/EclipseLink best practices explain below in detail**
 
 1. **eclipselink.cache.shared.default** - By default EclipseLink maintains a shared 2nd level object cache. This
