@@ -1,6 +1,9 @@
 package com.gm.shared.jpa.eclipselink.rest.project;
 
+import org.eclipse.persistence.oxm.MediaType;
 import org.eclipse.persistence.oxm.XMLContext;
+import org.eclipse.persistence.oxm.XMLMarshaller;
+import org.eclipse.persistence.oxm.XMLUnmarshaller;
 import org.eclipse.persistence.sessions.Project;
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.stereotype.Component;
@@ -10,7 +13,7 @@ import java.util.Map;
 
 @Component
 public class ProjectService {
-    private Map<Class<?>, XMLContext> allJpaXmlContexts;
+    private Map<Class<?>, XMLContext> xmlContexts;
 
     public Project newProject() {
         return new Project();
@@ -18,17 +21,47 @@ public class ProjectService {
 
     public void createXmlContext(Session session, Project project, Class<?> aClass) {
 
-        if (allJpaXmlContexts == null) {
-            allJpaXmlContexts = new HashMap<>(session.getDescriptors().size());
+        if (xmlContexts == null) {
+            xmlContexts = new HashMap<>(session.getDescriptors().size());
         }
 
-        if (!allJpaXmlContexts.containsKey(aClass)) {
-            allJpaXmlContexts.put(aClass, new XMLContext(project, session.getPlatform().getConversionManager().getLoader()));
+        if (!xmlContexts.containsKey(aClass)) {
+            xmlContexts.put(aClass, new XMLContext(project, session.getPlatform().getConversionManager().getLoader()));
         }
     }
 
     public XMLContext getXmlContext(Class<?> aClass) {
-        return allJpaXmlContexts.get(aClass);
+        return xmlContexts.get(aClass);
+    }
+
+    public boolean supportsClass(Class<?> aClass) {
+        return xmlContexts.containsKey(aClass);
+    }
+
+    public XMLUnmarshaller unmarshaller(Class<?> aClass, MediaType mediaType) {
+
+
+        XMLContext xmlContext = getXmlContext(aClass);
+
+        XMLUnmarshaller unmarshaller = xmlContext.createUnmarshaller();
+        unmarshaller.setMediaType(mediaType);
+//         TODO   unmarshaller.setErrorHandler(new RestApiErrorHandler());
+        if (unmarshaller.getMediaType().isApplicationJSON()) {
+            unmarshaller.setWrapperAsCollectionName(true);
+        }
+        return unmarshaller;
+    }
+
+    public XMLMarshaller xmlMarshaller(Class<?> aClass, MediaType mediaType) {
+
+        XMLContext xmlContext = getXmlContext(aClass);
+        XMLMarshaller marshaller = xmlContext.createMarshaller();
+        marshaller.setMediaType(mediaType);
+        if (marshaller.getMediaType().isApplicationJSON()) {
+            marshaller.setWrapperAsCollectionName(true);
+        }
+
+        return marshaller;
     }
 
 
