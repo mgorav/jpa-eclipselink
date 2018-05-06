@@ -24,7 +24,7 @@ public class MappingVisitorLocator<M extends DatabaseMapping, V extends MappingW
     private List<V> visitors;
 
 
-    public <M extends DatabaseMapping, V extends MappingWeavingVisitor<M>> V visitorForMapping(M mapping) {
+    public V visitorForMapping(M mapping) {
 
         V visitor = uncheckedCast(mappingVsVisitors.get(mapping.getClass()));
 
