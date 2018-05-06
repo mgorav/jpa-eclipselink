@@ -1,10 +1,10 @@
 package com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.customizer;
 
 import com.gm.shared.jpa.eclipselink.customizer.JpaEclipseLinkCustomizer;
+import com.gm.shared.jpa.eclipselink.rest.project.ProjectService;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.MappingWeavingVisitor;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.locator.MappingVisitorLocator;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.context.MappingWeavingContext;
-import com.gm.shared.jpa.eclipselink.rest.project.ProjectService;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.sessions.Project;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.valueOf;
 
@@ -61,7 +62,7 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
         cd.getMappings().forEach(mapping -> {
 
             weavingContext.setCurrentDatabaseMapping(mapping);
-            MappingWeavingVisitor<DatabaseMapping> visitor = locator.visitorForMapping(mapping);
+            MappingWeavingVisitor<M> visitor = locator.visitorForMapping(uncheckedCast(mapping));
             visitor.visit(weavingContext);
         });
 
