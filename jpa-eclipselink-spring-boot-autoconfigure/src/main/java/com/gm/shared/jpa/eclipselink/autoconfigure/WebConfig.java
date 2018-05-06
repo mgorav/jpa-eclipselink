@@ -12,7 +12,7 @@ import java.util.List;
 
 @EnableWebMvc
 @Configuration
-@ConditionalOnProperty("gm.shared.jpa.spring.rest")
+@ConditionalOnProperty("gm.shared.jpa.spring.rest.enabled")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override

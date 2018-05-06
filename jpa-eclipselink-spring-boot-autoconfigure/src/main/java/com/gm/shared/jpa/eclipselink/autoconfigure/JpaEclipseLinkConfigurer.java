@@ -3,6 +3,7 @@ package com.gm.shared.jpa.eclipselink.autoconfigure;
 import com.gm.shared.jpa.eclipselink.customizer.controller.JpaEclipseLinkControllerCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScanner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,6 +31,7 @@ import static org.springframework.util.StringUtils.collectionToCommaDelimitedStr
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "gm.shared.jpa")
+@ConditionalOnProperty("gm.shared.jpa.enabled")
 public class JpaEclipseLinkConfigurer {
 
     private Map<String, String> properties;
