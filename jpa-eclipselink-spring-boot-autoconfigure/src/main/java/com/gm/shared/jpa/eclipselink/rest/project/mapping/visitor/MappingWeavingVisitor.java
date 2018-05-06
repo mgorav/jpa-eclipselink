@@ -15,5 +15,4 @@ public interface MappingWeavingVisitor<T extends DatabaseMapping> {
 
     Class<T> getDatabaseMapping();
 
-
 }
