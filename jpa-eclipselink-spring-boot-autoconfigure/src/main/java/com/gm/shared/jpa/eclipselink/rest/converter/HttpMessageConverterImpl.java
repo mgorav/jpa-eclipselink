@@ -93,7 +93,7 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
     @Override
     protected void writeInternal(T t, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 
-        projectService.marshal(t.getClass(),outputMessage.getBody());
+        projectService.marshal(t, outputMessage.getBody());
     }
 
     private boolean isJsonAndSupported(Class<?> aClass, MediaType mediaType) {

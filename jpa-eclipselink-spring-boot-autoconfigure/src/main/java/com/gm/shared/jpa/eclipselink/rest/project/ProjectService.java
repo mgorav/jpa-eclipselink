@@ -80,16 +80,19 @@ public class ProjectService {
 
     public <T> void marshal(T object, OutputStream outputStream) {
 
-        XMLContext xmlContext = getXmlContext(object.getClass());
+        try {
+            XMLContext xmlContext = getXmlContext(object.getClass());
 
 
-        XMLMarshaller marshaller = xmlContext.createMarshaller();
-        marshaller.setMediaType(APPLICATION_JSON);
-        if (marshaller.getMediaType().isApplicationJSON()) {
+            XMLMarshaller marshaller = xmlContext.createMarshaller();
+            marshaller.setMediaType(APPLICATION_JSON);
             marshaller.setWrapperAsCollectionName(true);
-        }
 
-        marshaller.marshal(object, outputStream);
+            marshaller.marshal(object, outputStream);
+        } catch (Exception exp) {
+            // TODO propogate
+            exp.printStackTrace();
+        }
     }
 
 

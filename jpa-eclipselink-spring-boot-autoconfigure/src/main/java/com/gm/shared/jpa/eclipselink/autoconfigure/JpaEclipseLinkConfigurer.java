@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -32,6 +34,7 @@ import static org.springframework.util.StringUtils.collectionToCommaDelimitedStr
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "gm.shared.jpa")
 @ConditionalOnProperty("gm.shared.jpa.enabled")
+@EnableSpringConfigured
 public class JpaEclipseLinkConfigurer {
 
     private Map<String, String> properties;
