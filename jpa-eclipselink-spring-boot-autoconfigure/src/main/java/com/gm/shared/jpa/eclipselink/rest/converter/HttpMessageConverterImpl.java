@@ -13,7 +13,6 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
 import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -79,7 +78,8 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
      */
     @Override
     protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-        return uncheckedCast(projectService.unmarshaller(clazz).unmarshal(inputMessage.getBody(), clazz));
+        return projectService.unmarshal(clazz, inputMessage.getBody());
+
     }
 
     /**
@@ -93,10 +93,11 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
     @Override
     protected void writeInternal(T t, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 
-        projectService.xmlMarshaller(t.getClass()).marshal(t, outputMessage.getBody());
+        projectService.marshal(t.getClass(),outputMessage.getBody());
     }
 
     private boolean isJsonAndSupported(Class<?> aClass, MediaType mediaType) {
-        return mediaType.equals(APPLICATION_JSON) && projectService.supportsClass(aClass);
+        // ONLY JSON is supported
+        return mediaType.equals(APPLICATION_JSON);
     }
 }

@@ -195,8 +195,10 @@ public class AsyncPersistenceObjectChangeSet {
         Object workingClone = objectChangeSet.getUnitOfWorkClone();
         VersionLockingPolicy versionLockingPolicy = (VersionLockingPolicy) session.getDescriptor(workingClone)
                 .getOptimisticLockingPolicy();
-        Long version = (Long) versionLockingPolicy.getVersionMapping().getAttributeValueFromObject(workingClone);
-        allObjectsInTxByVersion.put(workingClone, version);
+        if (versionLockingPolicy != null) {
+            Long version = (Long) versionLockingPolicy.getVersionMapping().getAttributeValueFromObject(workingClone);
+            allObjectsInTxByVersion.put(workingClone, version);
+        }
 
     }
 

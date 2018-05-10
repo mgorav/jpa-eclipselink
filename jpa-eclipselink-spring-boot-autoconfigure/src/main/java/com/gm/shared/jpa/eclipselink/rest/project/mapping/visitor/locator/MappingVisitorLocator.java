@@ -32,7 +32,6 @@ public class MappingVisitorLocator<M extends DatabaseMapping, V extends MappingW
             @Override
             public void visit(MappingWeavingContext<M> context) {
                 // DO NOTHING
-
                 log.info(String.format("%s#%s not supported, hence just ignoring",
                         context.getCurrentClassDescriptor().getJavaClass().getSimpleName(),
                         context.getCurrentDatabaseMapping().getClass().getSimpleName()));

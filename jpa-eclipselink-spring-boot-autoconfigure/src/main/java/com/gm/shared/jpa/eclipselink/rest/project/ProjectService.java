@@ -7,14 +7,19 @@ import org.eclipse.persistence.sessions.Project;
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.JAXBContext;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
 import static org.eclipse.persistence.oxm.MediaType.APPLICATION_JSON;
 
 @Component
 public class ProjectService {
     private Map<Class<?>, XMLContext> xmlContexts;
+    private Map<Class<?>, JAXBContext> jaxbContexts;
 
     public Project newProject() {
         return new Project();
@@ -32,6 +37,12 @@ public class ProjectService {
     }
 
     public XMLContext getXmlContext(Class<?> aClass) {
+
+        if (!xmlContexts.containsKey(aClass)) {
+            // This means it's a not a JPA class. Let's create XMLContext
+            // TODO
+        }
+
         return xmlContexts.get(aClass);
     }
 
@@ -39,30 +50,46 @@ public class ProjectService {
         return xmlContexts.containsKey(aClass);
     }
 
-    public XMLUnmarshaller unmarshaller(Class<?> aClass) {
+    public <T> T unmarshal(Class<?> aClass, InputStream inputStream) {
 
 
         XMLContext xmlContext = getXmlContext(aClass);
+
+//        if (xmlContext != null) {
 
         XMLUnmarshaller unmarshaller = xmlContext.createUnmarshaller();
         unmarshaller.setMediaType(APPLICATION_JSON);
 //         TODO   unmarshaller.setErrorHandler(new RestApiErrorHandler());
-        if (unmarshaller.getMediaType().isApplicationJSON()) {
-            unmarshaller.setWrapperAsCollectionName(true);
-        }
-        return unmarshaller;
+        unmarshaller.setWrapperAsCollectionName(true);
+        return uncheckedCast(unmarshaller.unmarshal(inputStream, aClass));
+//        }
+
+//        if (!jaxbContexts.containsKey(aClass)) {
+//
+//            jaxbContexts.put(aClass, createContext(new Class[]{aClass}, null));
+//
+//        }
+//
+//        Unmarshaller unmarshaller = jaxbContexts.get(aClass).createUnmarshaller();
+//        unmarshaller.setProperty(MEDIA_TYPE, APPLICATION_JSON);
+//
+//        return uncheckedCast(unmarshaller.unmarshal(inputStream));
+
+
     }
 
-    public XMLMarshaller xmlMarshaller(Class<?> aClass) {
+    public <T> void marshal(T object, OutputStream outputStream) {
 
-        XMLContext xmlContext = getXmlContext(aClass);
+        XMLContext xmlContext = getXmlContext(object.getClass());
+
+
         XMLMarshaller marshaller = xmlContext.createMarshaller();
         marshaller.setMediaType(APPLICATION_JSON);
         if (marshaller.getMediaType().isApplicationJSON()) {
             marshaller.setWrapperAsCollectionName(true);
         }
 
-        return marshaller;
+        marshaller.marshal(object, outputStream);
     }
 
 
