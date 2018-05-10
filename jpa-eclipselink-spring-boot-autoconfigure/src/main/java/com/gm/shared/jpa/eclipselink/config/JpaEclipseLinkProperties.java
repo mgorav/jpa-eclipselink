@@ -1,5 +1,7 @@
 package com.gm.shared.jpa.eclipselink.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;

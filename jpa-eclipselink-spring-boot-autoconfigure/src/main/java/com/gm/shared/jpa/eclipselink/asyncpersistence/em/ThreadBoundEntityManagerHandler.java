@@ -91,11 +91,6 @@ public class ThreadBoundEntityManagerHandler {
             log.trace("After Registration ChangeSet " + changeSet);
         }
 
-        // release the queued entity manager and make it candidate for GC ASAP
-        entityManager.clear();
-        entityManager.close();
-        entityManager = null;
-        queuedEntityManager = null;
 
         return changeSet;
 

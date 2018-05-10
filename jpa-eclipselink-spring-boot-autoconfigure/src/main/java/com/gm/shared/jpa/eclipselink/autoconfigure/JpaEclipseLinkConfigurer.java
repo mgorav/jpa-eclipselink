@@ -1,5 +1,6 @@
 package com.gm.shared.jpa.eclipselink.autoconfigure;
 
+import com.gm.shared.jpa.eclipselink.asyncpersistence.persistence.AsyncCommitService;
 import com.gm.shared.jpa.eclipselink.customizer.controller.JpaEclipseLinkControllerCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -46,7 +46,6 @@ public class JpaEclipseLinkConfigurer {
         LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
         emfBean.setDataSource(dataSource);
 
-
         JpaVendorAdapter vendorAdapter = new EclipseLinkJpaVendorAdapter();
         emfBean.setJpaVendorAdapter(vendorAdapter);
 
@@ -58,9 +57,15 @@ public class JpaEclipseLinkConfigurer {
         this.properties.forEach((key, value) -> {
             properties.setProperty(key, value);
 
-            if (key.contains("eclipselink-async")) {
-                int asyncCommitCount = key.equals("eclipselink-async-commitcount") ? Integer.parseInt(value) : 1000;
-                newJpaEclipseLinkProperties().setAsyncCommitCount(asyncCommitCount);
+
+            if (isAsyncPersistenceConfigured(applicationContext)) {
+                if (key.contains("eclipselink-async")) {
+                    int asyncCommitCount = key.equals("eclipselink-async-commitcount") ? Integer.parseInt(value) : 1000;
+                    newJpaEclipseLinkProperties().setAsyncCommitCount(asyncCommitCount);
+                }
+
+                // set default value
+                newJpaEclipseLinkProperties().setAsyncCommitCount(1000);
             }
 
             setDefaultEclipseLinkJpaProperties(properties);
@@ -81,7 +86,6 @@ public class JpaEclipseLinkConfigurer {
 
     private void enableEclipseLinkProfierIfConfigured(Properties properties, String key, String value) {
         if (key.equals("eclipselink-performance.profiler")) {
-            newJpaEclipseLinkProperties().setAsyncPersistence(true);
             // TODO
 //            if (!properties.contains("eclipselink.session.customizer") && Boolean.valueOf(value)) {
 //                properties.setProperty("eclipselink.session.customizer", PerformanceProfilerCustomizer.class.getCanonicalName());
@@ -199,6 +203,18 @@ public class JpaEclipseLinkConfigurer {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isAsyncPersistenceConfigured(ApplicationContext applicationContext) {
+        try {
+            if (applicationContext.getBean(AsyncCommitService.class) != null) {
+                return true;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+
+        return false;
     }
 
 }

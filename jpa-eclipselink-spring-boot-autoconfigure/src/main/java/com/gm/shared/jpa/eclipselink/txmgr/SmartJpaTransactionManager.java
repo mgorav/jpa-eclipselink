@@ -6,6 +6,7 @@ import com.gm.shared.jpa.eclipselink.asyncpersistence.em.ThreadBoundEntityManage
 import com.gm.shared.jpa.eclipselink.asyncpersistence.persistence.AsyncCommitService;
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionStatus;
 
@@ -21,11 +22,14 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
     @PersistenceContext
     private EntityManager entityManager;
     private Queue<AsyncPersistenceObjectChangeSet> unitOfWorkChangeSetQueue;
-    @Autowired(required = false)
+    @Autowired
+    @Lazy
     private ThreadBoundEntityManagerHandler threadBoundEMHandler;
-    @Autowired(required = false)
+    @Autowired
+    @Lazy
     private AsyncEntityManager asyncEntityManager;
-    @Autowired(required = false)
+    @Autowired
+    @Lazy
     private AsyncCommitService commitService;
 
     @Override
@@ -46,11 +50,13 @@ public class SmartJpaTransactionManager extends JpaTransactionManager {
         if (jpaEclipseLinkProperties().isPresent()) {
             JpaEclipseLinkProperties jpaEclipseLinkProperties = jpaEclipseLinkProperties().get();
 
-            // collect & clear
-            AsyncPersistenceObjectChangeSet changeSet = threadBoundEMHandler.calculateChanges(entityManager);
+            if (jpaEclipseLinkProperties.isAsyncPersistence()) {
+                // collect & clear
+                AsyncPersistenceObjectChangeSet changeSet = threadBoundEMHandler.calculateChanges(entityManager);
 
-            if (changeSet != null) {
-                unitOfWorkChangeSetQueue.offer(changeSet);
+                if (changeSet != null) {
+                    unitOfWorkChangeSetQueue.offer(changeSet);
+                }
             }
 
         }

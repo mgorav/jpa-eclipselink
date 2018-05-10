@@ -4,6 +4,7 @@ import com.gm.shared.jpa.eclipselink.asyncpersistence.changeset.AsyncPersistence
 import com.gm.shared.jpa.eclipselink.asyncpersistence.em.AsyncEntityManager;
 import com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +18,9 @@ import static com.gm.shared.jpa.eclipselink.asyncpersistence.queue.AutoCommittin
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.jpaEclipseLinkProperties;
 
 @Component
+@ConditionalOnProperty(
+        name = "gm.shared.jpa.async-persistence",
+        havingValue = "true")
 public class AsyncCommitService {
 
     @Autowired
@@ -59,7 +63,7 @@ public class AsyncCommitService {
         }
     }
 
-    @Scheduled(fixedDelay = 1000000)
+    @Scheduled(fixedDelay = 10000)
     public void doCommit() {
         doCommit(newDeque(asyncEntityManager, jpaEclipseLinkProperties, asyncCommitService));
     }

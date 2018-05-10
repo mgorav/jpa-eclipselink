@@ -13,6 +13,8 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 public class JpaTransactionManagerConfigurer {
 
+    private boolean asyncPersistence;
+
     @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         final SmartJpaTransactionManager transactionManager = new SmartJpaTransactionManager();
