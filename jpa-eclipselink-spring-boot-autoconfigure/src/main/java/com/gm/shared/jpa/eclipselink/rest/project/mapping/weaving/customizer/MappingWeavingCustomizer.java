@@ -2,6 +2,7 @@ package com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.customizer;
 
 import com.gm.shared.jpa.eclipselink.customizer.JpaEclipseLinkCustomizer;
 import com.gm.shared.jpa.eclipselink.rest.project.ProjectService;
+import com.gm.shared.jpa.eclipselink.rest.project.mapping.hateoas.LinkMapping;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.MappingWeavingVisitor;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.visitor.locator.MappingVisitorLocator;
 import com.gm.shared.jpa.eclipselink.rest.project.mapping.weaving.context.MappingWeavingContext;
@@ -27,6 +28,8 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
     private Map<Class<?>, MappingWeavingContext> metadata;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private LinkMapping linkMapping;
 
 
     @Override
@@ -56,8 +59,13 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
         Class<?> aClass = cd.getJavaClass();
 
-        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(project, cd);
+        MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(session, project, cd);
 
+        // // REST Link if not there
+
+        if (weavingContext.getXMLDescriptorFor(aClass).getMappingForAttributeName("link") == null) {
+            linkMapping.constructRestLink(weavingContext);
+        }
 
         cd.getMappings().forEach(mapping -> {
 

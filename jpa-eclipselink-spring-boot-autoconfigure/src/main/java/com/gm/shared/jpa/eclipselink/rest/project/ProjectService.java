@@ -61,6 +61,7 @@ public class ProjectService {
         unmarshaller.setMediaType(APPLICATION_JSON);
 //         TODO   unmarshaller.setErrorHandler(new RestApiErrorHandler());
         unmarshaller.setWrapperAsCollectionName(true);
+        unmarshaller.setIncludeRoot(false);
         return uncheckedCast(unmarshaller.unmarshal(inputStream, aClass));
 //        }
 
@@ -87,6 +88,7 @@ public class ProjectService {
             XMLMarshaller marshaller = xmlContext.createMarshaller();
             marshaller.setMediaType(APPLICATION_JSON);
             marshaller.setWrapperAsCollectionName(true);
+            marshaller.setIncludeRoot(false);
 
             marshaller.marshal(object, outputStream);
         } catch (Exception exp) {
