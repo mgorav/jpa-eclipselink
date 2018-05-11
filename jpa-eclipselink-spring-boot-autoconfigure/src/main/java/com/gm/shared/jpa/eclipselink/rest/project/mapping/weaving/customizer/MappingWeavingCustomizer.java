@@ -44,16 +44,6 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
         });
     }
 
-    @Override
-    public int getOrder() {
-        return MAX_VALUE - 2;
-    }
-
-    @Override
-    public int compareTo(JpaEclipseLinkCustomizer o) {
-        return valueOf(o.getOrder()).compareTo(valueOf(this.getOrder()));
-    }
-
 
     private void doWeaveXmlClassDescriptor(Session session, Project project, ClassDescriptor cd) {
 
@@ -61,7 +51,7 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
         MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(session, project, cd);
 
-        // // REST Link if not there
+        // REST Link if not there
 
         if (weavingContext.getXMLDescriptorFor(aClass).getMappingForAttributeName("link") == null) {
             linkMapping.constructRestLink(weavingContext);
@@ -79,6 +69,16 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
             // recurse, till there are no mappings
             doWeaveXmlClassDescriptor(session, project, session.getClassDescriptor(aClass));
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return MAX_VALUE - 2;
+    }
+
+    @Override
+    public int compareTo(JpaEclipseLinkCustomizer o) {
+        return valueOf(o.getOrder()).compareTo(valueOf(this.getOrder()));
     }
 
 }

@@ -33,7 +33,7 @@ public class LinkMapping {
 
             XMLCompositeCollectionMapping xmlUriMapping = getLinkMapping(linkClass);
             xmlUriMapping.setAttributeAccessor(new XMLUriMappingAttributeAccessor("link"));
-            context.addMapping(xmlUriMapping);
+            context.addMappingToCurrentXMLDescriptor(xmlUriMapping);
 
         }
 

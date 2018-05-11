@@ -35,7 +35,7 @@ public class OneToManyMappingWeavingVisitor implements MappingWeavingVisitor<One
 
             compositeCollectionMapping.setXPath(format("%s%s%s", attributeName, '/', postFix));
 
-            context.addMapping(compositeCollectionMapping);
+            context.addMappingToCurrentXMLDescriptor(compositeCollectionMapping);
 
 
         }

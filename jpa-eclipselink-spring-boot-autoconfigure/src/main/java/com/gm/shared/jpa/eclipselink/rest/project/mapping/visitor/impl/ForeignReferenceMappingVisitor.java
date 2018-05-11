@@ -56,13 +56,13 @@ public class ForeignReferenceMappingVisitor implements MappingWeavingVisitor<For
                     boolean shouldCreateInverseMapping = refXmlCd.getMappings().size() > 1 ? true : false;
 
                     if (shouldCreateInverseMapping) {
-                        context.addMapping(createXmlInverseReferenceMappingFrom(context, biDirectionalMappedBy));
+                        context.addMappingToCurrentXMLDescriptor(createXmlInverseReferenceMappingFrom(context, biDirectionalMappedBy));
                     } else {
-                        context.addMapping(createXmlObjectMappingFrom(context));
+                        context.addMappingToCurrentXMLDescriptor(createXmlObjectMappingFrom(context));
                     }
                 }
             } else {
-                context.addMapping(createXmlObjectMappingFrom(context));
+                context.addMappingToCurrentXMLDescriptor(createXmlObjectMappingFrom(context));
             }
         }
     }

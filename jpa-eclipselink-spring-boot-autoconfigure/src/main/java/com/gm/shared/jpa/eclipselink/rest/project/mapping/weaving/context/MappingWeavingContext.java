@@ -13,6 +13,7 @@ import java.util.Queue;
 public class MappingWeavingContext<T extends DatabaseMapping> {
     private final Project project;
     private final ClassDescriptor currentClassDescriptor;
+    private final XMLDescriptor currentXMLlDescriptor;
     private T currentDatabaseMapping;
     private final Queue<Class<?>> currentReferencedClasses;
     private final Session serverSession;
@@ -22,6 +23,17 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         this.serverSession = serverSession;
         this.currentReferencedClasses = new ArrayDeque<>();
         this.project = project;
+
+
+        Class<?> aClass = currentClassDescriptor.getJavaClass();
+        XMLDescriptor xmlDescriptor = (XMLDescriptor) project.getDescriptor(aClass);
+
+        if (xmlDescriptor == null) {
+            xmlDescriptor = newXMLDescriptor(currentClassDescriptor.getJavaClass());
+        }
+
+        this.currentXMLlDescriptor = xmlDescriptor;
+
     }
 
     public Session getServerSession() {
@@ -29,13 +41,8 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
     }
 
     public XMLDescriptor getXMLDescriptorFor(Class<?> aClass) {
-        XMLDescriptor xmlDescriptor = (XMLDescriptor) project.getDescriptor(aClass);
 
-        if (xmlDescriptor == null) {
-            xmlDescriptor = newXMLDescriptor(aClass);
-        }
-
-        return xmlDescriptor;
+        return currentXMLlDescriptor;
     }
 
     public XMLDescriptor newXMLDescriptor(Class<?> aClass) {
@@ -74,8 +81,8 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         currentReferencedClasses.offer(referencedClass);
     }
 
-    public void addMapping(DatabaseMapping mapping) {
-        getXMLDescriptorFor(currentClassDescriptor.getJavaClass()).addMapping(mapping);
+    public void addMappingToCurrentXMLDescriptor(DatabaseMapping mapping) {
+        currentXMLlDescriptor.addMapping(mapping);
     }
 
     public boolean mappingDoesNotExistFor(String attributeName) {

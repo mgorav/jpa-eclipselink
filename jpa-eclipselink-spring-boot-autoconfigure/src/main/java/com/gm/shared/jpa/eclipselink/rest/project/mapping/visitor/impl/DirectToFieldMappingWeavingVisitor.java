@@ -34,7 +34,7 @@ public class DirectToFieldMappingWeavingVisitor implements MappingWeavingVisitor
 
             xmlValueDirectMapping.setXPath(format("%s%s%s", '@', attributeName, "/text()"));
 
-            context.addMapping(xmlValueDirectMapping);
+            context.addMappingToCurrentXMLDescriptor(xmlValueDirectMapping);
         }
 
 
