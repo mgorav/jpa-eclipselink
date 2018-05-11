@@ -53,7 +53,7 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
         // REST Link if not there
 
-        if (weavingContext.getXMLDescriptorFor(aClass).getMappingForAttributeName("link") == null) {
+        if (weavingContext.getCurrentXMLDescriptor(aClass).getMappingForAttributeName("link") == null) {
             linkMapping.constructRestLink(weavingContext);
         }
 

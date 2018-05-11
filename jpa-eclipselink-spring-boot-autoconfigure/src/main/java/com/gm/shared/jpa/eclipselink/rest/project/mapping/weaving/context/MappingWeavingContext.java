@@ -40,7 +40,7 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
         return serverSession;
     }
 
-    public XMLDescriptor getXMLDescriptorFor(Class<?> aClass) {
+    public XMLDescriptor getCurrentXMLDescriptor(Class<?> aClass) {
 
         return currentXMLlDescriptor;
     }
@@ -87,6 +87,6 @@ public class MappingWeavingContext<T extends DatabaseMapping> {
 
     public boolean mappingDoesNotExistFor(String attributeName) {
 
-        return getXMLDescriptorFor(currentClassDescriptor.getJavaClass()).getMappingForAttributeName(attributeName) == null;
+        return getCurrentXMLDescriptor(currentClassDescriptor.getJavaClass()).getMappingForAttributeName(attributeName) == null;
     }
 }

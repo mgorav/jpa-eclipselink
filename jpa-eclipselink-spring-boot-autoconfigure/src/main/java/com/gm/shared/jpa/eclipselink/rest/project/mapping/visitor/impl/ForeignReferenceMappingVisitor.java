@@ -46,7 +46,7 @@ public class ForeignReferenceMappingVisitor implements MappingWeavingVisitor<For
                 // The aim is: when we start from A (root element), pointer of B pointing back to A should be an inverse mapping
                 // but if B is a root element, we would like to create object reference mapping only (and bring only
                 // direct attributes)
-                XMLDescriptor refXmlCd = context.getXMLDescriptorFor(refClass);
+                XMLDescriptor refXmlCd = context.getCurrentXMLDescriptor(refClass);
                 // Only create inverse mapping if in JPA bi-directional mapping exists (using biDirectionalMappedBy)
                 // Bi-directional check we always start from ManyToOne/OneToOne side. If the xml descriptor (not JPA descriptor)
                 // of bi-directional counter part reference descriptor contain mappings else
