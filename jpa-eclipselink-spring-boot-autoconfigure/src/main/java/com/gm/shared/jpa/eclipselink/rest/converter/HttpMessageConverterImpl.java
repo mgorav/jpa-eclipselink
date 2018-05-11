@@ -98,6 +98,6 @@ public class HttpMessageConverterImpl<T> extends AbstractHttpMessageConverter<T>
 
     private boolean isJsonAndSupported(Class<?> aClass, MediaType mediaType) {
         // ONLY JSON is supported
-        return mediaType.equals(APPLICATION_JSON);
+        return projectService.supportsClass(aClass) && mediaType.equals(APPLICATION_JSON);
     }
 }
