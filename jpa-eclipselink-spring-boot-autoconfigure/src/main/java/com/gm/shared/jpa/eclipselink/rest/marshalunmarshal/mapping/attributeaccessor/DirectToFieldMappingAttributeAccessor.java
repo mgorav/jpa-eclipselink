@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.attributeaccessor;
 
-import com.gm.shared.jpa.eclipselink.rest.persistence.ServerSession;
+import com.gm.shared.jpa.eclipselink.rest.persistence.JpaService;
 import org.eclipse.persistence.exceptions.DescriptorException;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.mappings.AttributeAccessor;
@@ -29,7 +29,7 @@ public class DirectToFieldMappingAttributeAccessor extends AttributeAccessor {
     @Override
     public Object getAttributeValueFromObject(Object object) throws DescriptorException {
 
-        Session session = beanOfType(ServerSession.class).getEmf();
+        Session session = beanOfType(JpaService.class).getEmf();
         Object retVal = directToFieldMapping.getRealAttributeValueFromObject(object, (AbstractSession) session);
 
         if (converter != null) {
@@ -43,7 +43,7 @@ public class DirectToFieldMappingAttributeAccessor extends AttributeAccessor {
 
     @Override
     public void setAttributeValueInObject(Object object, Object value) throws DescriptorException {
-        Session session = beanOfType(ServerSession.class).getEmf();
+        Session session = beanOfType(JpaService.class).getEmf();
 
         if (converter != null) {
             value = converter.convertDataValueToObjectValue(value, session);

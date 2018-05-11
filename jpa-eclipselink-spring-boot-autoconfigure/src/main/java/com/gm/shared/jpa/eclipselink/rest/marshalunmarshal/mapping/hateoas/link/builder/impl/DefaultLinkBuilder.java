@@ -5,7 +5,7 @@ import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.builder.LinkBuilder;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.context.LinkContext;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.impl.DefaultLink;
-import com.gm.shared.jpa.eclipselink.rest.persistence.ServerSession;
+import com.gm.shared.jpa.eclipselink.rest.persistence.JpaService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class DefaultLinkBuilder<T> implements LinkBuilder<T> {
 
         DefaultLink link = new DefaultLink();
 
-        Object pk = BeanLocator.beanOfType(ServerSession.class).getEmf().getId(entity);
+        Object pk = BeanLocator.beanOfType(JpaService.class).getEmf().getId(entity);
 
         URI uri = fromPath(linkContext.getHostUrl() + entity.getClass().getSimpleName().toLowerCase())
                 .path(pk != null ? pk.toString() : "0")

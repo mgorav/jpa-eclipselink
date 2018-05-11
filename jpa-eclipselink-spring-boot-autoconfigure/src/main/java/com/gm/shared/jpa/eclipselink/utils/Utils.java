@@ -9,13 +9,13 @@ import static org.springframework.aop.support.AopUtils.*;
 
 public class Utils {
 
-    public static EntityManager nativeEM(EntityManager em) {
+    public static EntityManagerImpl nativeEM(EntityManager em) {
 
         if (isProxied(em)) {
-            return em;
+            return (EntityManagerImpl) em;
         }
 
-        EntityManager retEM = (EntityManager) em.getDelegate();
+        EntityManagerImpl retEM = (EntityManagerImpl) em.getDelegate();
 
         return retEM;
 
