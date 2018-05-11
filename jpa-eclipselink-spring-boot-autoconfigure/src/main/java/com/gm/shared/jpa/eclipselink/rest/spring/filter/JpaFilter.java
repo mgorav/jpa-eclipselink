@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.rest.spring.controller;
+package com.gm.shared.jpa.eclipselink.rest.spring.filter;
 
 import com.gm.shared.jpa.eclipselink.rest.persistence.JpaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,9 @@ import java.io.IOException;
 import static com.gm.shared.jpa.eclipselink.rest.constant.JpaEclipseLinkConstant.CURRENT_HOST_URI;
 import static com.gm.shared.jpa.eclipselink.rest.constant.JpaEclipseLinkConstant.CURRENT_HTTP_METHOD;
 
-@ConditionalOnProperty(name = "gm.shared.jpa.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "gm.shared.jpa.spring.rest.enabled", havingValue = "true")
 @Component
-public class JpaController extends OncePerRequestFilter {
+public class JpaFilter extends OncePerRequestFilter {
 
     @Autowired
     private JpaService jpa;
