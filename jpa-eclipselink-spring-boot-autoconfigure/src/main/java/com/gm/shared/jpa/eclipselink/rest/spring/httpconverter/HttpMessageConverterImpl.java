@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.rest.converter;
+package com.gm.shared.jpa.eclipselink.rest.spring.httpconverter;
 
 
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project.ProjectService;

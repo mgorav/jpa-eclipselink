@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.autoconfigure;
 
-import com.gm.shared.jpa.eclipselink.rest.converter.HttpMessageConverterImpl;
+import com.gm.shared.jpa.eclipselink.rest.spring.httpconverter.HttpMessageConverterImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
