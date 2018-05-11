@@ -1,7 +1,7 @@
 package com.gm.shared.jpa.eclipselink.rest.converter;
 
 
-import com.gm.shared.jpa.eclipselink.rest.project.ProjectService;
+import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
