@@ -5,7 +5,7 @@ import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.builder.LinkBuilder;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.context.LinkContext;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.link.impl.DefaultLink;
-import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.persistence.ServerSession;
+import com.gm.shared.jpa.eclipselink.rest.persistence.ServerSession;
 
 import java.net.URI;
 import java.util.ArrayList;

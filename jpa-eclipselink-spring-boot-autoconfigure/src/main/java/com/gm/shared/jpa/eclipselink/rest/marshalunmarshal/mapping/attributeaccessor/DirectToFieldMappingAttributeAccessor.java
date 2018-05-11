@@ -1,6 +1,6 @@
 package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.attributeaccessor;
 
-import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.persistence.ServerSession;
+import com.gm.shared.jpa.eclipselink.rest.persistence.ServerSession;
 import org.eclipse.persistence.exceptions.DescriptorException;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.mappings.AttributeAccessor;

@@ -1,4 +1,4 @@
-package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.persistence;
+package com.gm.shared.jpa.eclipselink.rest.persistence;
 
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.beans.factory.annotation.Autowired;
