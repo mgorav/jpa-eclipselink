@@ -33,6 +33,7 @@ public class ForeignReferenceMappingVisitor implements MappingWeavingVisitor<For
         ForeignReferenceMapping fkMapping = context.getCurrentDatabaseMapping();
         Class<?> refClass = fkMapping.getReferenceClass();
         String attributeName = fkMapping.getAttributeName();
+        context.setReferencedClass(refClass);
 
         if (context.mappingDoesNotExistFor(attributeName)) {
 
@@ -82,7 +83,7 @@ public class ForeignReferenceMappingVisitor implements MappingWeavingVisitor<For
         final Class<?> refClass = fkMapping.getReferenceClass();
         final XMLCompositeObjectMapping compositeObjectMapping = new XMLCompositeObjectMapping();
         compositeObjectMapping.setAttributeAccessor(new ForeignReferenceMappingAttributeAccessor(fkMapping));
-
+        compositeObjectMapping.setAttributeName(attributeName);
         compositeObjectMapping.setXPath(attributeName);
         compositeObjectMapping.setReferenceClass(refClass);
 

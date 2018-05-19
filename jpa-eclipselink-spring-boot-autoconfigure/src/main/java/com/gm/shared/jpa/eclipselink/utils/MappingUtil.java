@@ -17,6 +17,8 @@ public class MappingUtil {
             return null;
         } else if (fkMapping.isOneToManyMapping()) {
             return null;
+        } else if (fkMapping.getReferenceDescriptor() == null)  {
+            return null;
         }
 
         return doGetBiDirectionalMappedBy(fkMapping.getDescriptor().getJavaClass(), fkMapping.getReferenceDescriptor());

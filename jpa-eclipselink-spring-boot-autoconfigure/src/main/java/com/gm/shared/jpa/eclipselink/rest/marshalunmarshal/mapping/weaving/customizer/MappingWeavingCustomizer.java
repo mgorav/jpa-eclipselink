@@ -1,11 +1,11 @@
 package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.weaving.customizer;
 
 import com.gm.shared.jpa.eclipselink.customizer.JpaEclipseLinkCustomizer;
-import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project.ProjectService;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.LinkMapping;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.visitor.MappingWeavingVisitor;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.visitor.locator.MappingVisitorLocator;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.weaving.context.MappingWeavingContext;
+import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project.ProjectService;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.sessions.Project;
@@ -47,9 +47,15 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
     private void doWeaveXmlClassDescriptor(Session session, Project project, ClassDescriptor cd) {
 
+        if (project.getDescriptor(cd.getJavaClass()) != null) {
+            // break recurssion, if XMLDescriptor is already present
+            return;
+        }
+
         Class<?> aClass = cd.getJavaClass();
 
         MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(session, project, cd);
+        metadata.putIfAbsent(aClass,weavingContext);
 
         // REST Link if not there
 
@@ -67,7 +73,7 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
         while (weavingContext.hasReferencedClass()) {
             Class<?> referencedClass = weavingContext.getReferencedClass();
             // recurse, till there are no mappings
-            doWeaveXmlClassDescriptor(session, project, session.getClassDescriptor(aClass));
+            doWeaveXmlClassDescriptor(session, project, session.getClassDescriptor(referencedClass));
         }
     }
 
