@@ -1,5 +1,6 @@
 package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project;
 
+import com.gm.shared.jpa.eclipselink.rest.Wrapper;
 import org.eclipse.persistence.oxm.XMLContext;
 import org.eclipse.persistence.oxm.XMLMarshaller;
 import org.eclipse.persistence.oxm.XMLUnmarshaller;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Component;
 import javax.xml.bind.JAXBContext;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
@@ -84,13 +87,24 @@ public class ProjectService {
         try {
             XMLContext xmlContext = getXmlContext(object.getClass());
 
+            Object objectToBeMarshalled = object;
+
+            if (xmlContext == null && Collection.class.isAssignableFrom(object.getClass())) {
+                xmlContext = getXmlContext(Collection.class.cast(object).iterator().next().getClass()) ;
+
+                Wrapper<Object> wrapper = new Wrapper<>();
+                wrapper.setItems(Collection.class.cast(object));
+                objectToBeMarshalled = wrapper;
+
+            }
+
 
             XMLMarshaller marshaller = xmlContext.createMarshaller();
             marshaller.setMediaType(APPLICATION_JSON);
             marshaller.setWrapperAsCollectionName(true);
             marshaller.setIncludeRoot(false);
 
-            marshaller.marshal(object, outputStream);
+            marshaller.marshal(objectToBeMarshalled, outputStream);
         } catch (Exception exp) {
             // TODO propogate
             exp.printStackTrace();

@@ -24,7 +24,7 @@ public class Utils {
 
     public static Session activeSession(EntityManager entityManager) {
         EntityManagerImpl emImpl = (EntityManagerImpl) nativeEM(entityManager);
-        return emImpl.getActiveSession();
+        return emImpl.isOpen()? emImpl.getActiveSession() : null;
     }
 
     public static void waitFor(int timeInMills) {

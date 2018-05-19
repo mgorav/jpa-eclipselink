@@ -1,6 +1,7 @@
 package com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.weaving.customizer;
 
 import com.gm.shared.jpa.eclipselink.customizer.JpaEclipseLinkCustomizer;
+import com.gm.shared.jpa.eclipselink.rest.Wrapper;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.hateoas.LinkMapping;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.visitor.MappingWeavingVisitor;
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.visitor.locator.MappingVisitorLocator;
@@ -8,12 +9,16 @@ import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.mapping.weaving.conte
 import com.gm.shared.jpa.eclipselink.rest.marshalunmarshal.project.ProjectService;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
+import org.eclipse.persistence.oxm.XMLDescriptor;
+import org.eclipse.persistence.oxm.mappings.XMLAnyCollectionMapping;
 import org.eclipse.persistence.sessions.Project;
 import org.eclipse.persistence.sessions.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.gm.shared.jpa.eclipselink.utils.CastUtil.uncheckedCast;
@@ -25,7 +30,6 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
     @Autowired
     private MappingVisitorLocator<M, V> locator;
-    private Map<Class<?>, MappingWeavingContext> metadata;
     @Autowired
     private ProjectService projectService;
     @Autowired
@@ -34,28 +38,33 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
 
     @Override
     public void customize(Session session) throws Exception {
-        this.metadata = new HashMap<>(session.getDescriptors().size());
+
         session.getDescriptors().forEach((aClass, cd) -> {
             Project project = projectService.newProject();
-            doWeaveXmlClassDescriptor(session, project, cd);
+            List<Class<?>> processedClasses = new ArrayList<>(100);
+            Map<Class<?>, MappingWeavingContext> metadata = new HashMap<>(session.getDescriptors().size());
+            doWeaveXmlClassDescriptor(processedClasses, session, project, cd, metadata);
 
+            addWrapperSupport(metadata.get(cd.getJavaClass()));
             projectService.createXmlContext(session, project, aClass);
+
 
         });
     }
 
 
-    private void doWeaveXmlClassDescriptor(Session session, Project project, ClassDescriptor cd) {
+    private void doWeaveXmlClassDescriptor(List<Class<?>> processedClasses, Session session, Project project,
+                                           ClassDescriptor cd, Map<Class<?>, MappingWeavingContext> metadata) {
 
-        if (project.getDescriptor(cd.getJavaClass()) != null) {
+        Class<?> aClass = cd.getJavaClass();
+
+        if (processedClasses.contains(aClass)) {
             // break recurssion, if XMLDescriptor is already present
             return;
         }
 
-        Class<?> aClass = cd.getJavaClass();
-
         MappingWeavingContext weavingContext = metadata.get(aClass) != null ? metadata.get(aClass) : new MappingWeavingContext(session, project, cd);
-        metadata.putIfAbsent(aClass,weavingContext);
+        metadata.putIfAbsent(aClass, weavingContext);
 
         // REST Link if not there
 
@@ -70,11 +79,26 @@ public class MappingWeavingCustomizer<M extends DatabaseMapping, V extends Mappi
             visitor.visit(weavingContext);
         });
 
+        processedClasses.add(cd.getJavaClass());
+
         while (weavingContext.hasReferencedClass()) {
             Class<?> referencedClass = weavingContext.getReferencedClass();
             // recurse, till there are no mappings
-            doWeaveXmlClassDescriptor(session, project, session.getClassDescriptor(referencedClass));
+            doWeaveXmlClassDescriptor(processedClasses, session, project, session.getClassDescriptor(referencedClass), metadata);
         }
+    }
+
+
+    private void addWrapperSupport(MappingWeavingContext context) {
+
+        XMLDescriptor wrapperDescriptor = context.newXMLDescriptor(Wrapper.class);
+        wrapperDescriptor.setDefaultRootElement("items");
+        // XmlAnyCollectionMapping to handle List<T>
+        XMLAnyCollectionMapping mapping = new XMLAnyCollectionMapping();
+        mapping.setAttributeName(Wrapper.class.getName());
+        mapping.setGetMethodName("getItems");
+        mapping.setSetMethodName("setItems");
+        wrapperDescriptor.addMapping(mapping);
     }
 
     @Override
