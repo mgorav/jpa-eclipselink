@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.gm.shared.jpa.eclipselink.rest.constant.JpaEclipseLinkConstant.CURRENT_HOST_URI;
 import static com.gm.shared.jpa.eclipselink.rest.constant.JpaEclipseLinkConstant.CURRENT_HTTP_METHOD;
 
-@ConditionalOnProperty(name = "gm.shared.jpa.spring.rest.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "gm.shared.restgraph.enabled", havingValue = "true")
 @Component
 public class JpaFilter extends OncePerRequestFilter {
 
