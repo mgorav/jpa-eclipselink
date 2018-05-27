@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -27,7 +26,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import static com.gm.shared.jpa.eclipselink.config.JpaEclipseLinkProperties.newJpaEclipseLinkProperties;
-import static org.springframework.util.StringUtils.collectionToCommaDelimitedString;
 
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
@@ -200,7 +198,7 @@ public class JpaEclipseLinkConfigurer {
                 });
 
                 if (!fullQualifiedEntityPkgs.isEmpty()) {
-                    emfBean.setPackagesToScan(collectionToCommaDelimitedString(fullQualifiedEntityPkgs));
+                    emfBean.setPackagesToScan(fullQualifiedEntityPkgs.stream().toArray(String[]::new));
                 }
             }
         } catch (ClassNotFoundException e) {
